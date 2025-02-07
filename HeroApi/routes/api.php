@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\UsersController;
+
+Route::apiResource('users', UsersController::class);
+
+<?php
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

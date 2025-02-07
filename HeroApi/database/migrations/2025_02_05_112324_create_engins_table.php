@@ -15,13 +15,13 @@ return new class extends Migration
 
             $table->foreignUuid('EnginTypeUuid')->references('EnginTypeUuid')->on('enginType')->nullable(false);
 
-            $table->foreignUuid('SuperHeroUuid')->references('SuperHeroUuid')->on('superHero')->nullable(false);
+            $table->foreignUuid('SuperHeroUuid')->references('SuperHeroUuid')->on('superHero')->onDelete('cascade')->nullable(false);
 
             $table->string('EnginName')->nullable(false);
             
             $table->longText('EnginDescription');
 
-            $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->nullable(false);
+            $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->onDelete('cascade')->nullable(false);
 
             $table->timestamps();
         });

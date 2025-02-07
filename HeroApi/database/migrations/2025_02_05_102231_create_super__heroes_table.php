@@ -29,7 +29,7 @@ return new class extends Migration
 
             $table->foreignUuid('SquadUuid')->references('SquadUuid')->on('squad');
 
-            $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->nullable(false);
+            $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->onDelete('cascade')->nullable(false);
 
 
 
