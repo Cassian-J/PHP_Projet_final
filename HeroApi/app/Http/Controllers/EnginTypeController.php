@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Engin_Type;
 class EnginTypeController extends Controller
 {
     /**
@@ -11,7 +11,7 @@ class EnginTypeController extends Controller
      */
     public function index()
     {
-        $engintype = EnginType::all();
+        $engintype = Engin_Type::all();
         return response()->json($engintype);
     }
     /**
@@ -19,7 +19,7 @@ class EnginTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $engintype = EnginType::create($request->all());
+        $engintype = Engin_Type::create($request->all());
         return response()->json($engintype, 201);
     }
 
@@ -28,7 +28,7 @@ class EnginTypeController extends Controller
      */
     public function show(string $id)
     {
-        $engintype = EnginType::find($id);
+        $engintype = Engin_Type::find($id);
         if (!$engintype) {
             return response()->json(['message' => 'engintype not found'], 404);
         }
@@ -40,7 +40,7 @@ class EnginTypeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $engintype = EnginType::find($id);
+        $engintype = Engin_Type::find($id);
         if (!$engintype) {
             return response()->json(['message' => 'Engin not found'], 404);
         }
@@ -53,7 +53,7 @@ class EnginTypeController extends Controller
      */
     public function destroy(string $id)
     {
-        $engintype = EnginType::find($id);
+        $engintype = Engin_Type::find($id);
         if (!$engintype) {
             return response()->json(['message' => 'EnginType not found'], 404);
         }
