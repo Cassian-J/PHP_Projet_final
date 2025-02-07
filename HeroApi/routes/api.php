@@ -10,6 +10,6 @@ Route::apiResource('users', UsersController::class);
 
 Route::apiResource('super_hero', Super_HeroController::class);
 
-Route::apiResource('City', CityController::class);
+Route::apiResource('city', CityController::class);
 
-Route::apiResource('Guide', GuideController::class);
+Route::apiResource('guide', GuideController::class);
