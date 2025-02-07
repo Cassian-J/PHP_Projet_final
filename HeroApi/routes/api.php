@@ -2,13 +2,16 @@
 
 use App\Http\Controllers\UsersController;
 
+use App\Http\Controllers\PlanetController;
+
+use App\Http\Controllers\EnginController;
+
+use App\Http\Controllers\EnginTypeController;
+
 Route::apiResource('users', UsersController::class);
 
-<?php
+Route::apiResource('planet', PlanetController::class);
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+Route::apiResource('engin', EnginController::class);
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::apiResource('engintype', EnginTypeController::class);

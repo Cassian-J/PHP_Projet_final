@@ -11,15 +11,16 @@ class PlanetController extends Controller
      */
     public function index()
     {
-        //
+        $planet = Planet::all();
+        return response()->json($planet);
     }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $planet = Planet::create($request->all());
+        return response()->json($planet, 201);
     }
 
     /**
@@ -27,7 +28,11 @@ class PlanetController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $planet = Planet::find($id);
+        if (!$planet) {
+            return response()->json(['message' => 'planet not found'], 404);
+        }
+        return response()->json($planet);
     }
 
     /**
@@ -35,7 +40,12 @@ class PlanetController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $planet = Planet::find($id);
+        if (!$planet) {
+            return response()->json(['message' => 'Planet not found'], 404);
+        }
+        $planet->update($request->all());
+        return response()->json($planet);
     }
 
     /**
@@ -43,6 +53,11 @@ class PlanetController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $planet = Planet::find($id);
+        if (!$planet) {
+            return response()->json(['message' => 'Planet not found'], 404);
+        }
+        $planet->delete();
+        return response()->json(['message' => 'Planet sucefuly supresed']);
     }
 }
