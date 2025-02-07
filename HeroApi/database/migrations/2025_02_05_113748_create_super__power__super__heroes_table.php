@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('superPower_superHero', function (Blueprint $table) {
 
-            $table->foreignUuid('SuperHeroUuid')->references('SuperHeroUuid')->on('superHero')->nullable(false);
+            $table->foreignUuid('SuperHeroUuid')->references('SuperHeroUuid')->on('superHero')->onDelete('cascade')->nullable(false);
 
             $table->foreignUuid('SuperPowerUuid')->references('SuperPowerUuid')->on('superPower')->nullable(false);
 
