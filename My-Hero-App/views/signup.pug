@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  section(class="box")
+    h1 Welcome to #{title}
+    img(src="/images/sign.png")
+    h2 Sign up
+    form(method="POST")
+      input(type="text"  name="userMail" required autofocus placeholder="enter your email" class="entry")
+      input(type="text"  name="userFirstName" required autofocus placeholder="enter your first name" class="entry")
+      input(type="text"  name="userLastName" required autofocus placeholder="enter your last name" class="entry")
+      article(class="password-container")
+        input(type="password" minlength="8" name="passwordSignUp" required autofocus placeholder="enter yout password" id="pwd" class="entry")
+        button(type="button" id="togglePassword" class="toggle-button")
+        i(class="fa-solid fa-eye")
+      article(class="password-container")
+        input(type="password" minlength="8" name="passwordSignUp2" required autofocus placeholder="retipe your password" id="pwd2" class="entry")
+        button(type="button" id="togglePassword2" class="toggle-button")
+        i(class="fa-solid fa-eye")
+      input(type="submit" value="sign up" class="btn")
+
+      section(class="button")
+        button(Id = "signIn" type="button" class="btn") sign in
+
+  script(type = 'module' src='/javascripts/signup.js')

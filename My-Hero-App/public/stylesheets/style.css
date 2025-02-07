@@ -1,8 +1,148 @@
+/* Global Styles */
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
 }
 
-a {
-  color: #00B7FF;
+/* Box Styles */
+.box {
+  max-width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column-reverse; /* Reverse order on mobile */
+  text-align: center;
+}
+
+/* Image Styles */
+.box img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Form Styles */
+form {
+  margin-top: 20px;
+}
+
+.entry {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.password-container {
+  position: relative;
+}
+
+#pwd {
+  padding-right: 40px;
+}
+
+.toggle-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.fa-solid {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  color: #666;
+}
+
+/* Button Styles */
+.btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+/* Sign Up Button Styles */
+.button {
+  margin-top: 10px;
+}
+
+#signUp {
+  background-color: #6c757d;
+}
+
+#signUp:hover {
+  background-color: #5a6268;
+}
+
+#signIn {
+  background-color: #6c757d;
+}
+
+#signIn:hover {
+  background-color: #5a6268;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .box {
+    flex-direction: column; /* Original order on desktop */
+  }
+}
+
+@media (max-width: 768px) {
+  .box {
+    margin: 20px auto;
+    padding: 15px;
+  }
+  .box img {
+    height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .box {
+    margin: 10px auto;
+    padding: 10px;
+  }
+  .box img {
+    height: 80px;
+  }
+  .entry {
+    padding: 8px;
+  }
+  .btn {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 320px) {
+  .box {
+    margin: 5px auto;
+    padding: 5px;
+  }
+  .box img {
+    height: 60px;
+  }
+  .entry {
+    padding: 5px;
+  }
+  .btn {
+    padding: 5px;
+  }
 }
