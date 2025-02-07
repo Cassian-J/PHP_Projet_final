@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->longText('SuperPowerDescription')->nullable(false);
 
-            $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->nullable(false);
+            $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->onDelete('cascade')->nullable(false);
 
             $table->timestamps();
         });

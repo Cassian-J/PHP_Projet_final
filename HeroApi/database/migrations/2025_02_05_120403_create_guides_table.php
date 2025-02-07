@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('guide', function (Blueprint $table) {
 
-             $table->foreignUuid('SuperHeroUuid')->references('SuperHeroUuid')->on('superHero')->nullable(false);
+             $table->foreignUuid('SuperHeroUuid')->references('SuperHeroUuid')->on('superHero')->onDelete('cascade')->nullable(false);
 
-             $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->nullable(false);
+             $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->onDelete('cascade')->nullable(false);
 
              $table->longText('Weakness');
 

@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->string('PlanetName')->nullable(false);
 
-            $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->nullable(false);
+            $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->onDelete('cascade')->nullable(false);
 
             $table->timestamps();
         });

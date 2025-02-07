@@ -15,9 +15,9 @@ return new class extends Migration
 
             $table->uuid('GadgetUuid')->primary()->unique()->nullable(false);
 
-            $table->foreignUuid('SuperHeroUuid')->references('SuperHeroUuid')->on('superHero')->nullable(false);
+            $table->foreignUuid('SuperHeroUuid')->references('SuperHeroUuid')->on('superHero')->onDelete('cascade')->nullable(false);
 
-            $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->nullable(false);
+            $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->onDelete('cascade')->nullable(false);
 
             $table->string('GadgetName')->nullable(false);
 
