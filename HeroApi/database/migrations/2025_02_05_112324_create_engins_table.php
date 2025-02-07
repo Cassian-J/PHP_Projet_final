@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->string('EnginName')->nullable(false);
             
-            $table->longText('EnginDescription');
+            $table->longText('EnginDescription')->nullable(false);
 
             $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->onDelete('cascade')->nullable(false);
 

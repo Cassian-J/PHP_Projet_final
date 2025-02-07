@@ -17,13 +17,13 @@ return new class extends Migration
 
              $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->onDelete('cascade')->nullable(false);
 
-             $table->longText('Weakness');
+             $table->longText('Weakness')->nullable(false);
 
-             $table->longText('Strength');
+             $table->longText('Strength')->nullable(false);
 
-             $table->integer('Dengerousness');
+             $table->integer('Dengerousness')->nullable(false);
 
-             $table->longText('DestroyingPlan');
+             $table->longText('DestroyingPlan')->nullable(false);
 
             $table->timestamps();
         });
