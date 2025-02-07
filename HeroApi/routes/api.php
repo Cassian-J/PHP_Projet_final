@@ -18,7 +18,7 @@ Route::apiResource('squad', SquadController::class);
 
 Route::apiResource('users', UsersController::class);
 
-Route::apiResource('superPower', SuperPowerController::class);
+Route::apiResource('super_power', SuperPowerController::class);
 
 Route::apiResource('users', UsersController::class);
 
@@ -32,4 +32,4 @@ Route::apiResource('planet', PlanetController::class);
 
 Route::apiResource('engin', EnginController::class);
 
-Route::apiResource('engintype', EnginTypeController::class);
+Route::apiResource('engin_type', EnginTypeController::class);
