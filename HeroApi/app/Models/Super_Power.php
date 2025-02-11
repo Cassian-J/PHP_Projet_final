@@ -10,7 +10,7 @@ class Super_Power extends Model
     use HasFactory;
 
     protected $table = 'superPower';
-    protected $fillable = ['SuperPowerName','SuperPowerDescription'];
+    protected $fillable = ['SuperPowerUuid','SuperPowerName','SuperPowerDescription','UserUuid'];
 
 
 }

@@ -10,6 +10,6 @@ class City extends Model
     use HasFactory;
 
     protected $table = 'city';
-    protected $fillable = ['CityName'];
+    protected $fillable = ['CityUuid','CityName','UserUuid'];
 
 }

@@ -1,4 +1,5 @@
 var {Server} = require("socket.io");
+var {v4} = require('uuid');
 /**
 *  the User class manage all api request for user table
 */
@@ -12,7 +13,7 @@ class User{
         if (!this.validateUserData(userinfo)){
             console.error("Error the information format did'nt match with the require")
         }
-
+        userinfo.UserUuid = v4();
         fetch(this.apiurl, {
             method: 'POST',
             headers: {
@@ -20,8 +21,7 @@ class User{
             },
             body: JSON.stringify(userinfo),
         })
-        .then(response => console.log(response))
-        .then(data => console.log(data))
+        .then(data => console.log(data,userinfo))
         .catch(error => console.error('Erreur lors de l\'envoi de la requête:', error));
     }
 
