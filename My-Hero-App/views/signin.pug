@@ -6,12 +6,12 @@ block content
     img(src="/images/sign.png")
     h2 Sign in
     form(method="POST")
-      input(type="text"  name="userMailConn" required autofocus placeholder="enter your email" class="entry")
+      input(type="text"  ID="userMailConn" required autofocus placeholder="enter your email" class="entry")
       article(class="password-container")
-        input(type="password" minlength="8" name="pwdConn" required autofocus placeholder="enter your password" id="pwd" class="entry")
+        input(type="password" minlength="8" ID="pwdConn" required autofocus placeholder="enter your password" id="pwd" class="entry")
         button(type="button" id="togglePassword" class="toggle-button")
         i(class="fa-solid fa-eye")
-      input(type="submit" value="sign in" class="btn")
+      button(ID = "signIn" type="button" class="btn") sign in
 
       section(class="button")
         button(ID = "signUp" type="button" class="btn") sign up
