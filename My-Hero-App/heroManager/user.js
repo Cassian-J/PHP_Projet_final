@@ -11,37 +11,33 @@ class User{
 /**
  * methode to create an user, send all information about the user to the api
  */
-    CreateNewUser(userinfo) {
-        bcrypt.genSalt(this.saltRounds, (err, salt) => {
-            if (err) {
-                console.error("Error during the salt generation");
-                return ;
-            } else {
-                bcrypt.hash(userinfo.UserPwd, salt, (err, hash) => {
-                    if (err) {
-                        console.error("Error during the hash generation");
-                        return ;
-                    } else {
-                        userinfo.UserPwd = hash;
-                    }
-                });
+    async CreateNewUser(userinfo) {
+        try {
+            const salt = await bcrypt.genSalt(this.saltRounds);
+            userinfo.UserPwd = await bcrypt.hash(userinfo.UserPwd, salt);
+            
+            if (!this.validateUserData(userinfo)) {
+                console.error("Error: Invalid user data format.");
+                return;
             }
-        });
-        console.log(userinfo);
-        if (!this.validateUserData(userinfo)){
-            console.error("Error the information format did'nt match with the require");
-            return ;
+            console.log(userinfo);
+            if (!this.validateUserData(userinfo)){
+                console.error("Error the information format did'nt match with the require");
+                return ;
+            }
+            userinfo.UserUuid = v4();
+            fetch(this.apiurl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userinfo),
+            })
+            .then(data => console.log(data,userinfo))
+            .catch(error => console.error('Error during the request:', error));
+        } catch (error) {
+            console.error('Error during the user creation:', error);
         }
-        userinfo.UserUuid = v4();
-        fetch(this.apiurl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userinfo),
-        })
-        .then(data => console.log(data,userinfo))
-        .catch(error => console.error('Error during the request:', error));
     }
 
     UserConection(userinfo, socket) {
