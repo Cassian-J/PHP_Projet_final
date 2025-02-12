@@ -23,8 +23,12 @@ class Manager{
             });
 
             socket.on("userCon", userinfo => {
-                this.user.UserConection(userinfo);
+                this.user.UserConection(userinfo, socket);
             });
+
+            socket.on("CheckUserUuid", UserUuid => {
+                this.user.UserCheckConection(UserUuid,socket);
+            })
         })
     }
 
