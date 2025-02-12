@@ -12,14 +12,26 @@ document.getElementById('togglePassword').addEventListener('click', function () 
     passwordField.setAttribute('type', type);
   });
 
-  document.getElementById('signIn').onclick = function () {
-    const userinfo = {
-      UserPwd: '',
-      UserMail: ''
-    };
-
-    userinfo.UserMail = document.getElementById("userMailConn").value;
-    userinfo.UserPwd = document.getElementsByID("pwdConn").value;
-    
-    socket.emit("userCon", userinfo);
+document.getElementById('signIn').onclick = function () {
+  const userinfo = {
+    UserPwd: '',
+    UserMail: ''
   };
+
+  userinfo.UserMail = document.getElementById("userMailConn").value;
+  userinfo.UserPwd = document.getElementById("pwdConn").value;
+  if(userinfo.UserMail !== "" && userinfo.UserPwd !== "") {
+    socket.emit("userCon", userinfo);
+  } else {
+    alert("empty user mail or password")
+  }
+};
+
+socket.on("EmitUuid", UserUuid => {
+  document.cookie = "UserUuid="+UserUuid;
+  document.location.href="/My_Hero_App"
+});
+
+socket.on("Error", message => {
+  alert(message);
+});

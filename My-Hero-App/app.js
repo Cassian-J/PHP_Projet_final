@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var signinRouter = require("./routes/signin");
 var signupRouter = require("./routes/signup");
+var heroAppRouter = require("./routes/My_Hero_App");
 var app = express();
 
 // view engine setup
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', signinRouter);
 app.use('/signup', signupRouter);
+app.use('/My_Hero_App', heroAppRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
