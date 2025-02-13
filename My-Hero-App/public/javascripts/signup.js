@@ -2,7 +2,7 @@ import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
 
 window.socket = io();
 
-// redirect to the signup page
+// redirect to the signin page
 document.getElementById("signIn").onclick = function() {document.location.href="/";};
 
 // to clear the psw and to unclear it
@@ -17,6 +17,8 @@ document.getElementById('togglePassword2').addEventListener('click', function ()
     passwordField.setAttribute('type', type);
 });
 
+// add reaction to the signup buton,
+// the reaction get and send information to the server
 document.getElementById('signUp').onclick = function () {
     const userinfo = {
         UserName: '',
@@ -34,9 +36,24 @@ document.getElementById('signUp').onclick = function () {
     if (pwd1 == pwd2) {
         userinfo.UserPwd = pwd1;
     } else {
-        alert("Pasword need to be the same")
+        alert("Pasword need to be the same");
+        return;
     }
 
-    socket.emit("newUser", userinfo);
-    document.location.href="/";
+    if(userinfo.UserMail !== "" && userinfo.UserPwd !== "" && userinfo.UserName !== "" && userinfo.UserFirstName !== "") {
+        socket.emit("newUser", userinfo);
+      } else {
+        alert("empty user mail or password");
+        return;
+      }
 };
+
+// when the user are sucefuly created
+socket.on("UserCréationSucess", sucess => {
+    document.location.href="/";
+});
+
+// in case of error
+socket.on("Error", error => {
+    alert(error);
+});

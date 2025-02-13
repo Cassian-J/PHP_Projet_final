@@ -2,7 +2,7 @@ import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
 
 window.socket = io();
 
-
+// redirect to the signup page
 document.getElementById("signUp").onclick = function() {document.location.href="/signup";};
 
 // to clear the psw and to unclear it
@@ -12,6 +12,8 @@ document.getElementById('togglePassword').addEventListener('click', function () 
     passwordField.setAttribute('type', type);
   });
 
+// add reaction to the signin buton,
+// the reaction get and send information to the server 
 document.getElementById('signIn').onclick = function () {
   const userinfo = {
     UserPwd: '',
@@ -27,11 +29,15 @@ document.getElementById('signIn').onclick = function () {
   }
 };
 
+// this part is used when a user sucefuly conected,
+// the server send the user Uuid to add it to cookie
+// useful you khow
 socket.on("EmitUuid", UserUuid => {
   document.cookie = "UserUuid="+UserUuid;
   document.location.href="/My_Hero_App"
 });
 
+// if the server send an error mesage
 socket.on("Error", message => {
   alert(message);
 });
