@@ -65,12 +65,12 @@ class User{
             return response.json();
         })
         .then(data => {
-            bcrypt.compare(userinfo.pwdConn, data.UserPwd, (err, result) => {
+            bcrypt.compare(userinfo.UserPwd, data[0].UserPwd, (err, result) => {
                 if (err) {
                     console.error('Error comparing passwords:', err);
                     socket.emit("Error", "Error comparing passwords");
                 } else if (result) {
-                    socket.emit("EmitUuid", userInformation.UserUuid);
+                    socket.emit("EmitUuid", data[0].UserUuid);
                 } else {
                     socket.emit("Error", "The password does not match");
                 }

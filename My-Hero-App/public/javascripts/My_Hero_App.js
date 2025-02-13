@@ -18,7 +18,8 @@ function getCookie(name) {
         .find(c => c.startsWith(name + "="))
         ?.split('=')[1]
     if (value === undefined) {
-        return null
+        document.location.href="/";
+        return null;
     } 
     return decodeURIComponent(value)
 }
