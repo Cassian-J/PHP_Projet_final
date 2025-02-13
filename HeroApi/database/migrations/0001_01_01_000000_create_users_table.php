@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('UserName')->nullable(false);
             $table->string('UserFirstName')->nullable(false);
             $table->string('UserPwd')->nullable(false);
-            $table->string('UserMail')->nullable(false);
+            $table->string('UserMail')->unique()->nullable(false);
             $table->timestamps();
         });
 
