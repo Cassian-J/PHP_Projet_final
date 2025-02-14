@@ -2,6 +2,9 @@ import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
 
 window.socket = io();
 
+if (document.cookie.includes("UserUuid")) {
+  document.location.href = "/My_Hero_App";
+}
 
 document.getElementById("signUp").onclick = function() {document.location.href="/signup";};
 
