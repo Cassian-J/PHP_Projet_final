@@ -11,7 +11,7 @@ class User{
 /**
  * methode to create an user, send all information about the user to the api
  */
-    async CreateNewUser(userinfo) {
+    async CreateNewUser(userinfo, res) {
         try {
             const salt = await bcrypt.genSalt(this.saltRounds);
             userinfo.UserPwd = await bcrypt.hash(userinfo.UserPwd, salt);
@@ -20,12 +20,9 @@ class User{
                 console.error("Error: Invalid user data format.");
                 return;
             }
-            console.log(userinfo);
-            if (!this.validateUserData(userinfo)){
-                console.error("Error the information format did'nt match with the require");
-                return ;
-            }
+            
             userinfo.UserUuid = v4();
+            
             fetch(this.apiurl, {
                 method: 'POST',
                 headers: {
@@ -33,15 +30,17 @@ class User{
                 },
                 body: JSON.stringify(userinfo),
             })
-            .then(data => console.log(data,userinfo))
+            .then(data=>{
+                socket.emit("EmitUuid", user.UserUuid);
+            })
             .catch(error => console.error('Error during the request:', error));
         } catch (error) {
             console.error('Error during the user creation:', error);
         }
     }
 
-    UserConection(userinfo, socket) {
-        fetch(this.apiurl + "?UserMail="+userinfo.UserMail, {
+    UserConection(userinfo, socket, res) {
+        fetch(this.apiurl + "?UserMail=" + userinfo.UserMail, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,25 +53,38 @@ class User{
             return response.json();
         })
         .then(data => {
-            bcrypt.compare(userinfo.pwdConn, data.UserPwd, (err, result) => {
+            const user = data.find(u => u.UserMail === userinfo.UserMail);
+    
+            if (!user) {
+                console.error("Erreur : Aucun utilisateur correspondant à cet email !");
+                socket.emit("Error", "Utilisateur introuvable");
+                return;
+            }
+            if (!userinfo.pwdConn || !user.UserPwd) {
+                console.error("Erreur : Le mot de passe est manquant !");
+                socket.emit("Error", "Données incorrectes");
+                return;
+            }
+    
+            bcrypt.compare(userinfo.pwdConn, user.UserPwd, (err, result) => {
                 if (err) {
-                    console.error('Error comparing passwords:', err);
-                    socket.emit("Error", "Error comparing passwords");
+                    console.error('Erreur bcrypt.compare :', err);
+                    socket.emit("Error", "Erreur de comparaison des mots de passe");
                 } else if (result) {
-                    socket.emit("EmitUuid", userInformation.UserUuid);
+                    socket.emit("EmitUuid", user.UserUuid);
                 } else {
-                    socket.emit("Error", "The password does not match");
+                    socket.emit("Error", "Le mot de passe ne correspond pas");
                 }
             });
         })
         .catch(error => {
-            console.error('Error during the request:', error);
-            socket.emit("Error", "Error during the request");
+            console.error('Erreur durant la requête :', error);
+            socket.emit("Error", "Erreur durant la requête");
         });
     }
 
     UserCheckConection(UserUuid,socket) {
-        fetch(this.apiurl + userinfo.UserMail, {
+        fetch(this.apiurl + "?UserUuid=" + UserUuid, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

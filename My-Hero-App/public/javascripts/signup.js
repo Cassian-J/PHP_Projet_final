@@ -2,6 +2,9 @@ import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
 
 window.socket = io();
 
+if (document.cookie.includes("UserUuid")) {
+    document.location.href = "/My_Hero_App";
+}
 // redirect to the signup page
 document.getElementById("signIn").onclick = function() {document.location.href="/";};
 
@@ -19,16 +22,11 @@ document.getElementById('togglePassword2').addEventListener('click', function ()
 
 document.getElementById('signUp').onclick = function () {
     const userinfo = {
-        UserName: '',
-        UserFirstName: '',
+        UserName : document.getElementById("userName").value,
+        UserFirstName : document.getElementById("userFirstName").value,
         UserPwd: '',
-        UserMail: ''
+        UserMail: document.getElementById("userMail").value
     };
-
-    userinfo.UserName = document.getElementById("userName").value;
-    userinfo.UserFirstName = document.getElementById("userFirstName").value;
-    userinfo.UserMail = document.getElementById("userMail").value;
-
     var pwd1 = document.getElementById("passwordSignUp").value;
     var pwd2 = document.getElementById("passwordSignUp2").value;
     if (pwd1 == pwd2) {
@@ -38,5 +36,11 @@ document.getElementById('signUp').onclick = function () {
     }
 
     socket.emit("newUser", userinfo);
-    document.location.href="/";
 };
+
+socket.on("EmitUuid", (UserUuid) => {
+    document.cookie = `UserUuid=${UserUuid}; path=/`;
+    document.location.href = "/My_Hero_App";
+});
+
+socket.on("Error", (message) => alert(message));
