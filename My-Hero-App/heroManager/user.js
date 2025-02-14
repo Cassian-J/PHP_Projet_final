@@ -78,13 +78,13 @@ class User{
                 socket.emit("Error", "Utilisateur introuvable");
                 return;
             }
-            if (!userinfo.pwdConn || !user.UserPwd) {
+            if (!userinfo.UserPwd || !user.UserPwd) {
                 console.error("Erreur : Le mot de passe est manquant !");
                 socket.emit("Error", "Données incorrectes");
                 return;
             }
     
-            bcrypt.compare(userinfo.pwdConn, user.UserPwd, (err, result) => {
+            bcrypt.compare(userinfo.UserPwd, user.UserPwd, (err, result) => {
                 if (err) {
                     console.error('Erreur bcrypt.compare :', err);
                     socket.emit("Error", "Erreur de comparaison des mots de passe");
@@ -126,7 +126,7 @@ class User{
 
     }
 
-    UserDel(hashpsw) {
+    UserDel(hashpsw,socket) {
 
     }
 /**

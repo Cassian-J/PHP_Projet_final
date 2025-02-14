@@ -30,6 +30,10 @@ class Manager{
             socket.on("CheckUserUuid", UserUuid => {
                 this.user.UserCheckConection(UserUuid,socket);
             })
+            
+            socket.on("UserDel", userinfo => {
+                this.user.UserDel(userinfo,socket);
+            })
         })
     }
 
