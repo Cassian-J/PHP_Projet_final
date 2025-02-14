@@ -5,7 +5,6 @@ window.socket = io();
 if (document.cookie.includes("UserUuid")) {
     document.location.href = "/My_Hero_App";
 }
-// redirect to the signup page
 document.getElementById("signIn").onclick = function() {document.location.href="/";};
 
 // to clear the psw and to unclear it
@@ -20,6 +19,8 @@ document.getElementById('togglePassword2').addEventListener('click', function ()
     passwordField.setAttribute('type', type);
 });
 
+// add reaction to the signup buton,
+// the reaction get and send information to the server
 document.getElementById('signUp').onclick = function () {
     const userinfo = {
         UserName : document.getElementById("userName").value,
@@ -32,15 +33,24 @@ document.getElementById('signUp').onclick = function () {
     if (pwd1 == pwd2) {
         userinfo.UserPwd = pwd1;
     } else {
-        alert("Pasword need to be the same")
+        alert("Pasword need to be the same");
+        return;
     }
 
-    socket.emit("newUser", userinfo);
+    if(userinfo.UserMail !== "" && userinfo.UserPwd !== "" && userinfo.UserName !== "" && userinfo.UserFirstName !== "") {
+        socket.emit("newUser", userinfo);
+      } else {
+        alert("empty user mail or password");
+        return;
+      }
 };
 
-socket.on("EmitUuid", (UserUuid) => {
-    document.cookie = `UserUuid=${UserUuid}; path=/`;
-    document.location.href = "/My_Hero_App";
+// when the user are sucefuly created
+socket.on("UserCréationSucess", sucess => {
+    document.location.href="/";
 });
 
-socket.on("Error", (message) => alert(message));
+// in case of error
+socket.on("Error", error => {
+    alert(error);
+});
