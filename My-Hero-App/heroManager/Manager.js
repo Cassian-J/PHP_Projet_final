@@ -1,11 +1,13 @@
 var {Server} = require("socket.io");
 var User =require("./user");
+var SuperHero = require("./super_hero");
 /**
 *   The manager class willmanage the reception of all incomin socket request from clients
 *   and redirect it to the apropriate class to make API request and send response to the client.
 */
 class Manager{
     user = new User;
+    superHero = new SuperHero();
     io;
 
     constructor(serveur) {
@@ -34,7 +36,19 @@ class Manager{
             socket.on("UserDel", userinfo => {
                 this.user.UserDel(userinfo,socket);
             })
-        })
+
+    
+            socket.on("newSuperHero", (heroInfo) => {
+                this.superHero.CreateNewSuperHero(heroInfo, socket);
+            });
+
+
+            socket.on("SuperHeroDel", (heroInfo) => {
+                this.superHero.SuperHeroDel(heroInfo, socket);  // Cette méthode pourrait être définie dans SuperHero
+            });
+        });
+            
+        
     }
 
     /**
