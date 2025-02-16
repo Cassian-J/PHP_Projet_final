@@ -65,5 +65,36 @@ document.querySelector('.close-change').addEventListener('click', function() {
 //
 
 //
+document.getElementById('SendUserDel').onclick = function () {
+  const userinfo = {
+    UserUuid : getCookie("UserUuid"),
+    UserPwd : document.getElementById("pwdUserDel").value
+  };
+  if (userinfo.UserPwd == "") {
+    alert("empty password");
+    return;
+  }
 
+  socket.emit("UserDel", userinfo);
+};
+
+document.getElementById('SendChangeUserInfo').onclick = function () {
+  alert("not implemented yet");
+  socket.emit("UserUpdate", userinfo);
+};
+
+// when the user are sucefuly updated
+socket.on("UserSucefulyUpdated", sucess => {
+  document.location.href="/";
+});
+
+// when the user are sucefuly deleted
+socket.on("UserSucefulyDelete", sucess => {
+  document.location.href="/";
+});
+
+// in case of error
+socket.on("Error", error => {
+  alert(error);
+});
 //
