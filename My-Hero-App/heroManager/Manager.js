@@ -1,24 +1,26 @@
-var {Server} = require("socket.io");
-var User =require("./user");
+var {Server} = require("socket.io"); 
+var User = require("./user");
+var SuperHero = require("./superHero");
+
 /**
-*   The manager class willmanage the reception of all incomin socket request from clients
-*   and redirect it to the apropriate class to make API request and send response to the client.
+*   The manager class will manage the reception of all incoming socket requests from clients
+*   and redirect them to the appropriate class to make API requests and send responses to the client.
 */
 class Manager{
-    user = new User;
+    user = new User();
+    superHero = new SuperHero();
     io;
 
     constructor(serveur) {
-        // initialise the socket io clas of the server
+        // Initialise the socket.io class of the server
         this.io = new Server(serveur);
 
-        // this section is used to interact whith any client, one by one
+        // This section is used to interact with any client, one by one
         this.io.on("connection", (socket) => {
             console.info(`Client connected [id=${socket.id}]`);
             console.log(this.io.sockets.server.engine.clientsCount);
             
-            //to add a response to a resquest
-            //socket.on("",) => {}
+            // User-related events
             socket.on("newUser", userinfo => {
                 this.user.CreateNewUser(userinfo, socket);
             });
@@ -28,22 +30,29 @@ class Manager{
             });
 
             socket.on("CheckUserUuid", UserUuid => {
-                this.user.UserCheckConection(UserUuid,socket);
-            })
+                this.user.UserCheckConection(UserUuid, socket);
+            });
             
             socket.on("UserDel", userinfo => {
-                this.user.UserDel(userinfo,socket);
-            })
+                this.user.UserDel(userinfo, socket);
+            });
 
             socket.on("UserUpdate", userinfo => {
-                this.user.UserModif(userinfo,socket);
-            })
-        })
+                this.user.UserModif(userinfo, socket);
+            });
+            socket.on("newSuperHero", heroInfo => {
+                this.superHero.CreateNewHero(heroInfo, socket);
+            }
+            );
+    
+
+          
+        });
     }
 
     /**
      * The method used to get the instance of the manager, 
-     * or create it if it dosen't exist.
+     * or create it if it doesn't exist.
      */
     static getInstance(serveur) {
         if (!this.instance) {
@@ -52,6 +61,5 @@ class Manager{
         return this.instance;
     }
 }
-
 
 module.exports = Manager;

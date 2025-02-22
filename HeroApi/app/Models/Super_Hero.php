@@ -10,5 +10,5 @@ class Super_Hero extends Model
     use HasFactory;
 
     protected $table = 'superHero';
-    protected $fillable = ['SuperHeroUuid','SuperHeroName','SuperHeroSex','SuperHeroDescription'];
+    protected $fillable = ['SuperHeroUuid','SuperHeroName','SuperHeroSex','SuperHeroDescription','UserUuid'];
 }

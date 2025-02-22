@@ -15,7 +15,7 @@ return new class extends Migration
 
             $table->uuid('SuperHeroUuid')->primary()->unique()->nullable(false);
 
-            $table->string('SuperHeroname')->nullable(false);
+            $table->string('SuperHeroName')->nullable(false);
 
             $table->string('SuperHeroSex')->nullable(false);
 
