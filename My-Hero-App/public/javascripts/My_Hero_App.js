@@ -26,6 +26,14 @@ function getCookie(name) {
 }
 //
 
+// set user information un profil
+socket.on("profilInfo", userinfo => {
+  document.getElementById("infoName").innerHTML = userinfo.UserName;
+  document.getElementById("infoFirstName").innerHTML = userinfo.UserFirstName;
+  document.getElementById("infoMail").innerHTML = userinfo.UserMail;
+})
+//
+
 // to clear the psw and to unclear it
 document.getElementById('togglePassword').addEventListener('click', function () {
     const passwordField = document.getElementById('newPassword');

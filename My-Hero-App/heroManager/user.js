@@ -117,6 +117,16 @@ class User{
             if (!response.ok) {
                 socket.emit("UserError","This user dosent exit")
             }
+            return response.json();
+        })
+        .then(data => {
+            const user = data.find(u => u.UserUuid === UserUuid);
+            const toSend = {
+                UserName : user.UserName,
+                UserFirstName : user.UserFirstName,
+                UserMail: user.UserMail
+            }
+            socket.emit("profilInfo", toSend);
         })
         .catch(error => socket.emit("UserError","user not found"));
     }
@@ -168,33 +178,39 @@ class User{
                     }
                     
                     for (const [key, value] of Object.entries(userinfo)) {
-                        if (value !== "" && key != "NewUserPwd" && key != "UserPwd") {
-                            toSend[key] = value;
-                        } else if (key !== "NewUserPwd" && key !== "UserPwd") {
-                            toSend[key] = user[key];
-                        } else {
-                            if (userinfo.NewUserPwd !== "") {
-                                toSend.UserPwd = userinfo.NewUserPwd;
-                            } else {
+                        if (key === "NewUserPwd" || key === "UserPwd") {
+                            if (key === "NewUserPwd" && value !== "") {
+                                toSend.UserPwd = value;
+                            } else if (key === "UserPwd" && !toSend.UserPwd) {
                                 toSend.UserPwd = user.UserPwd;
                             }
+                        } else {
+                            toSend[key] = value !== "" ? value : user[key];
                         }
                     }
                     
-                    const salt = await bcrypt.genSalt(this.saltRounds);
-                    toSend.UserPwd = await bcrypt.hash(toSend.UserPwd, salt);
+                    if (toSend.UserPwd !== user.UserPwd){
+                        const salt = await bcrypt.genSalt(this.saltRounds);
+                        toSend.UserPwd = await bcrypt.hash(toSend.UserPwd, salt);
+                    }
             
                     //send modification to the api
-                    fetch(this.apiurl +"?UserUuid="+ userinfo.UserUuid,{
+                    fetch(this.apiurl +"/"+ userinfo.UserUuid,{
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify(toSend),
                     })
-                    .then(response => {})
+                    .then(response => {
+                        if (!response.ok) {
+                            socket.emit("Error", "This user dosen't exist");
+                            return;
+                        }
+                        return response.json();
+                    })
                     .then(data => {
-                        console.log(data, toSend);
+                        console.log(data);
                         socket.emit("UserModificationSuccess", true);
                     })
                     .catch(error => {
