@@ -117,18 +117,100 @@ class User{
             if (!response.ok) {
                 socket.emit("UserError","This user dosent exit")
             }
-        }).then(data => {
-            const user = data.find(u => u.UserUuid === UserUuid);
         })
         .catch(error => socket.emit("UserError","user not found"));
-
     }
 
 /** 
  * method used to update the user information
 */
-    UserModif(userinfo) {
+    async UserModif(userinfo, socket) {
+        if (userinfo.UserPwd == "") {
+            console.error("Error, empty password");
+            socket.emit("Error", "Error, empty password");
+        }
+        if(userinfo.UserUuid == "" || userinfo.UserPwd == "") {
+            socket.emit("Error", "the uuid or the password are empty");
+            return;
+        };
+        fetch(this.apiurl + "?UserUuid="+userinfo.UserUuid, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                socket.emit("Error", "This user dosen't exist");
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            const user = data.find(u => u.UserUuid === userinfo.UserUuid);
+    
+            if (!user) {
+                console.error("Error, there is no user with this uuid");
+                socket.emit("Error", "there is no user with this uuid");
+                return;
+            }
+    
+            bcrypt.compare(userinfo.UserPwd, user.UserPwd, async (err, result) => {
+                if (err) {
+                    console.error('Error bcrypt.compare :', err);
+                    socket.emit("Error", "Password dosen't match");
+                } else if (result) {
+                    const toSend = {
+                        UserName : '',
+                        UserFirstName : '',
+                        UserPwd: "",
+                        UserMail: ""
+                    }
+                    
+                    for (const [key, value] of Object.entries(userinfo)) {
+                        if (value !== "" && key != "NewUserPwd" && key != "UserPwd") {
+                            toSend[key] = value;
+                        } else if (key !== "NewUserPwd" && key !== "UserPwd") {
+                            toSend[key] = user[key];
+                        } else {
+                            if (userinfo.NewUserPwd !== "") {
+                                toSend.UserPwd = userinfo.NewUserPwd;
+                            } else {
+                                toSend.UserPwd = user.UserPwd;
+                            }
+                        }
+                    }
+                    
+                    const salt = await bcrypt.genSalt(this.saltRounds);
+                    toSend.UserPwd = await bcrypt.hash(toSend.UserPwd, salt);
+            
+                    //send modification to the api
+                    fetch(this.apiurl +"?UserUuid="+ userinfo.UserUuid,{
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(toSend),
+                    })
+                    .then(response => {})
+                    .then(data => {
+                        console.log(data, toSend);
+                        socket.emit("UserModificationSuccess", true);
+                    })
+                    .catch(error => {
+                        console.error('Error during the request:', error.message);
+                        socket.emit("Error", error.message);
+                    });
 
+                } else {
+                    socket.emit("Error", "Password dosen't match");
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error during the request:', error);
+            socket.emit("Error", "Error during the request");
+        });
     }
 
 /** 

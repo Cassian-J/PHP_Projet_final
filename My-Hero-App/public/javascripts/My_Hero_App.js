@@ -80,8 +80,28 @@ document.getElementById('SendUserDel').onclick = function () {
 };
 
 document.getElementById('SendChangeUserInfo').onclick = function () {
-  alert("not implemented yet");
-  socket.emit("UserUpdate", userinfo);
+  const userinfo = {
+    UserUuid : getCookie("UserUuid"),
+    UserName : document.getElementById("userName").value,
+    UserFirstName : document.getElementById("userFirstName").value,
+    NewUserPwd: '',
+    UserPwd: document.getElementById("pwdChangeUser").value,
+    UserMail: document.getElementById("userMail").value
+  };
+  var pwd1 = document.getElementById("newPassword").value;
+  var pwd2 = document.getElementById("newPassword2").value;
+  if (pwd1 === pwd2) {
+    userinfo.NewUserPwd = pwd1;
+  } else {
+    alert("Pasword need to be the same");
+    return;
+  }
+
+  if (userinfo.UserPwd == "") {
+    alert("empty password")
+  } else {
+    socket.emit("UserUpdate", userinfo);
+  }
 };
 
 // when the user are sucefuly updated
