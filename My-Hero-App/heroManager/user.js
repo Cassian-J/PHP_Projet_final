@@ -117,11 +117,16 @@ class User{
             if (!response.ok) {
                 socket.emit("UserError","This user dosent exit")
             }
+        }).then(data => {
+            const user = data.find(u => u.UserUuid === UserUuid);
         })
-        .catch(error => socket.emit("UserError",error));
+        .catch(error => socket.emit("UserError","user not found"));
 
     }
 
+/** 
+ * method used to update the user information
+*/
     UserModif(userinfo) {
 
     }
@@ -129,7 +134,7 @@ class User{
 /** 
  * method used to delete an user
 */
-    UserDel(userinfo, socket) {
+    async UserDel(userinfo, socket) {
         if(userinfo.UserPwd == "") {
             socket.emit("Error", "the password canot be empty");
             return;
@@ -167,30 +172,22 @@ class User{
                     console.error('Erreur bcrypt.compare :', err);
                     socket.emit("Error", "Error during password comparaison");
                 } else if (result) {
-                    fetch(this.apiurl + "?UserUuid="+userinfo.UserUuid, {
-                        method: "DELETE",
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
+                    fetch(this.apiurl + "/"+userinfo.UserUuid, {
+                        method: "DELETE"
                       })
                       .then(response => {
                         if (!response.ok) {
                             console.log('Error:', response);
                             socket.emit("Error", "Error during conection");
                             return;
-                        }
-                        if (response.status === 204) {
-                          console.log(`User sucefuly deleted`);
-                          socket.emit('UserSucefulyDelete', true);
-                          return;
                         } else {
                           return response.json();
                         }
                       })
                       .then(data => {
                         if (data) {
-                            console.log('Error:', data);
-                            socket.emit("Error", data);
+                            console.log(`User sucefuly deleted`);
+                            socket.emit('UserSucefulyDelete', true);
                             return;
                         }
                       })
