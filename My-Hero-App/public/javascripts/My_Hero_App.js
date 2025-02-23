@@ -9,6 +9,7 @@ socket.emit("CheckUserUuid", UserUuid);
 
 socket.on("UserError", message => {
     alert(message);
+    document.cookie = "UserUuid=; path=/";
     document.location.href="/";
 });
 

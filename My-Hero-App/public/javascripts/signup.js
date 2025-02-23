@@ -30,7 +30,7 @@ document.getElementById('signUp').onclick = function () {
     };
     var pwd1 = document.getElementById("passwordSignUp").value;
     var pwd2 = document.getElementById("passwordSignUp2").value;
-    if (pwd1 == pwd2) {
+    if (pwd1 === pwd2) {
         userinfo.UserPwd = pwd1;
     } else {
         alert("Pasword need to be the same");
