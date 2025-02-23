@@ -3,9 +3,9 @@ extends layout
 block content
   section(class="box")
     h1 Create Your Superhero
-    img(src="/images/hero.png")
    
-    form(method="POST" action="/superhero/create")
+   
+    form(method="POST")
       input(type="text" name="SuperHeroName" required autofocus placeholder="Enter superhero name" class="entry")
       select(name="SuperHeroSex" required class="entry")
         option(value="" disabled selected) Select gender
@@ -14,6 +14,6 @@ block content
         option(value="Other") Other
       textarea(name="SuperHeroDescription" required placeholder="Describe your superhero" class="entry")
       
-      button(type="submit" class="btn") Create Superhero
+      button(Id="create" type="submit" class="btn") Create Superhero
 
-  script(type='module' src='/javascripts/superhero.js')
+  script(type='module' src='/javascripts/super_hero.js')

@@ -12,31 +12,35 @@ class SuperHero {
     /**
      * Method to create a new superhero and send the information to the API
      */
-    async CreateNewHero(heroInfo, socket) {
+    async CreateNewHero(superheroInfo, socket) {
         try {
-            if (!this.validateHeroData(heroInfo)) {
+            if (!this.validateHeroData(superheroInfo)) {
                 throw new Error("Error: The information format didn't match the requirements.");
             }
-
-            heroInfo.SuperHeroUuid = v4();
-
+    
+            superheroInfo.SuperHeroUuid = v4();
+    
             const response = await fetch(this.apiurl, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Access-Control-Allow-Origin": "*"
                 },
-                body: JSON.stringify(heroInfo),
+                credentials: 'include',
+                body: JSON.stringify(superheroInfo),
             });
-
+    
             if (!response.ok) {
-                throw new Error("Failed to create hero");
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Failed to create hero");
             }
-
+    
             const data = await response.json();
             console.log("Hero created successfully:", data);
             socket.emit("SuperHeroCreationSuccess", true);
         } catch (error) {
-            console.error("Error creating hero:", error.message);
+            console.error("Error creating hero:", error);
             socket.emit("Error", error.message);
         }
     }

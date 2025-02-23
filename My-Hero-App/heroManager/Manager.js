@@ -40,8 +40,8 @@ class Manager{
             socket.on("UserUpdate", userinfo => {
                 this.user.UserModif(userinfo, socket);
             });
-            socket.on("newSuperHero", heroInfo => {
-                this.superHero.CreateNewHero(heroInfo, socket);
+            socket.on("newSuperHero", superheroInfo => {
+                this.superHero.CreateNewHero(superheroInfo, socket);
             }
             );
     
