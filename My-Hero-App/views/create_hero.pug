@@ -5,15 +5,13 @@ block content
     h1 Welcome to #{title}
     h2 Create your hero
     form(method="POST")
-      input(type="text"  name="superHeroName" required autofocus placeholder="enter name" class="entry")
-       select(name="superHeroSex" required class="entry")
+      input(type="text" name="superHeroName" required autofocus placeholder="enter name" class="entry")
+      select(name="superHeroSex" required class="entry")
         option(value="" disabled selected) Select gender
         option(value="Male") Male
         option(value="Female") Female
         option(value="Other") Other
       textarea(name="superHeroDescription" required placeholder="Describe your superhero" class="entry")
-    
-     input(type="submit" value="createHero" class="btn")
-        
+      input(type="submit" value="createHero" class="btn")
 
-  script(type = 'module' src='/javascripts/create_hero.js')
+    script(type="module" src='/javascripts/create_hero.js')
