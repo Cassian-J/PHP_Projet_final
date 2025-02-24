@@ -1,4 +1,5 @@
 import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
+import {getCookie} from "cookies.js";
 
 window.socket = io();
 
@@ -7,18 +8,6 @@ if (document.cookie.includes("UserUuid")) {
   if("" !== getCookie("UserUuid")) {
     document.location.href = "/My_Hero_App";
   }
-}
-
-function getCookie(name) {
-  const cookies = document.cookie.split('; ')
-  const value = cookies
-      .find(c => c.startsWith(name + "="))
-      ?.split('=')[1]
-  if (value === undefined) {
-      document.location.href="/";
-      return null;
-  } 
-  return decodeURIComponent(value)
 }
 //
 

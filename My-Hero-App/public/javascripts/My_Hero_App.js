@@ -1,4 +1,5 @@
 import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
+import {getCookie} from "cookies.js";
 
 window.socket = io();
 
@@ -12,18 +13,6 @@ socket.on("UserError", message => {
     document.cookie = "UserUuid=; path=/";
     document.location.href="/";
 });
-
-function getCookie(name) {
-    const cookies = document.cookie.split('; ')
-    const value = cookies
-        .find(c => c.startsWith(name + "="))
-        ?.split('=')[1]
-    if (value === undefined) {
-        document.location.href="/";
-        return null;
-    } 
-    return decodeURIComponent(value)
-}
 //
 
 // set user information un profil
