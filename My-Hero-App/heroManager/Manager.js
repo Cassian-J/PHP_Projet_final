@@ -54,16 +54,31 @@ class Manager {
                 this.superHero.CreateNewHero(heroInfo, socket);
             });
 
-            socket.on("newCity", cityInfo => {
-                this.city.CreateNewCity(cityInfo, socket);
+            socket.on("createCity", cityInfo => {
+                this.city.createCity(cityInfo, socket);
             });
 
-            socket.on("newPlanet",planetInfo => {
-                this.planet.CreateNewPlanet(planetInfo, socket);
+            socket.on("getAllCity", userUuid => {
+                this.city.getAllCity(userUuid, socket);
             });
+
             
-            
-    
+            socket.on("deleteCity", cityInfo => {
+                this.city.deleteCity(cityInfo, socket);
+            });
+
+            socket.on("createPlanet",planetInfo => {
+                this.planet.createPlanet(planetInfo, socket);
+            });
+
+
+            socket.on("getAllPlanet", userUuid => {
+                this.planet.getAllPlanet(userUuid, socket);
+            });
+
+            socket.on("deletePlanet", planetInfo => {
+                this.planet.deletePlanet(planetInfo, socket);
+            });
 
             socket.on("createSquad", squadInfo => {
                 this.squad.createSquad(squadInfo, socket);

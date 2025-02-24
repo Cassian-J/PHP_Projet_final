@@ -1,25 +1,24 @@
 import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
-import {getCookie} from "cookies.js";
+import { getCookie } from "./cookies.js";
 
 window.socket = io();
-
-document.getElementById("create_planet").onclick = function() {
-    const planetInfo = {
-        PlanetName: document.getElementById("planetName").value,
-    };
-    if (planetInfo.PlanetName !== "" ) {
-        window.socket.emit("newPlanet", planetInfo);
+const planetInfo = {};
+var UserUuid = getCookie("UserUuid");
+planetInfo.UserUuid=UserUuid;
+document.getElementById("create_planet").onclick = function () {
+    const planetName = document.getElementById("planetName").value;
+    planetInfo.PlanetName = planetName;
+    if (planetName !== "") {
+        socket.emit("createPlanet", planetInfo);
     } else {
-        alert("Remplissez le champ");
-        return;
+        alert("Planet Name cannot be empty");
     }
+};
 
-}
-
-socket.on("PlanetCréationSucess", sucess => {
-    document.location.href="/My_Hero_App";
+socket.on("PlanetCreated", success => {
+    if (success) alert("Planet created successfully!");
 });
 
-socket.on("Error", error => {
-    alert(error);
+socket.on("Error", message => {
+    alert("Error: " + message);
 });

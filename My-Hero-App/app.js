@@ -29,7 +29,6 @@ app.use('/', signinRouter);
 app.use('/signup', signupRouter);
 app.use('/My_Hero_App', heroAppRouter);
 
-app.use('/create_hero', heroRouter);
 app.use('/squad',squadRouter);
 app.use('/superpower',superPowerRouter);
 app.use('/engin_type',enginTypeRouter);
