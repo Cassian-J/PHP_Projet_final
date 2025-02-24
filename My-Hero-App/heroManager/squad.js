@@ -6,8 +6,6 @@ class Squad {
 
     async createSquad(squadInfo, socket) {
         try {
-            console.log(squadInfo)
-            
             squadInfo.SquadUuid = v4();
             
             fetch(this.apiurl, {

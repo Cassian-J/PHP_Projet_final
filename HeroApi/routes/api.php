@@ -20,8 +20,6 @@ Route::apiResource('users', UsersController::class);
 
 Route::apiResource('super_power', SuperPowerController::class);
 
-Route::apiResource('users', UsersController::class);
-
 Route::apiResource('super_hero', Super_HeroController::class);
 
 Route::apiResource('city', CityController::class);

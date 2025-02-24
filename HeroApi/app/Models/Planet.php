@@ -10,8 +10,8 @@ class Planet extends Model
     use HasFactory;
 
     protected $table = 'planet';
-    protected $primaryKey = 'UserUuid';
+    protected $primaryKey = 'PlanetUuid';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['PlanetUuid','PlanetName'];
+    protected $fillable = ['PlanetUuid','UserUuid','PlanetName'];
 }

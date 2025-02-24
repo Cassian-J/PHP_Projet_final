@@ -7,9 +7,7 @@ class SuperPower {
     
     async createSuperPower(superpowerInfo, socket) {
         try {
-            if (!superpowerInfo.SuperPowerName || !superpowerInfo.SuperPowerDescription || !superpowerInfo.UserUuid) {
-                throw new Error("SuperPowerName, SuperPowerDescription, and UserUuid are required");
-            }
+            console.log(superpowerInfo)
             superpowerInfo.SuperPowerUuid = v4();
             
             fetch(this.apiurl, {
