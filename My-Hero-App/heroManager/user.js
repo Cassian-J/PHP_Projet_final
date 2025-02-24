@@ -74,30 +74,30 @@ class User{
             const user = data.find(u => u.UserMail === userinfo.UserMail);
     
             if (!user) {
-                console.error("Erreur : Aucun utilisateur correspondant à cet email !");
-                socket.emit("Error", "Utilisateur introuvable");
+                console.error("Error, there is no user with this mail");
+                socket.emit("Error", "there is no user with this mail");
                 return;
             }
-            if (!userinfo.pwdConn || !user.UserPwd) {
-                console.error("Erreur : Le mot de passe est manquant !");
-                socket.emit("Error", "Données incorrectes");
+            if (!userinfo.UserPwd || !user.UserPwd) {
+                console.error("Error, empty password");
+                socket.emit("Error", "Error, empty password");
                 return;
             }
     
-            bcrypt.compare(userinfo.pwdConn, user.UserPwd, (err, result) => {
+            bcrypt.compare(userinfo.UserPwd, user.UserPwd, (err, result) => {
                 if (err) {
-                    console.error('Erreur bcrypt.compare :', err);
-                    socket.emit("Error", "Erreur de comparaison des mots de passe");
+                    console.error('Error bcrypt.compare :', err);
+                    socket.emit("Error", "Password dosen't match");
                 } else if (result) {
                     socket.emit("EmitUuid", user.UserUuid);
                 } else {
-                    socket.emit("Error", "Le mot de passe ne correspond pas");
+                    socket.emit("Error", "Password dosen't match");
                 }
             });
         })
         .catch(error => {
-            console.error('Erreur durant la requête :', error);
-            socket.emit("Error", "Erreur durant la requête");
+            console.error('Error during the request:', error);
+            socket.emit("Error", "Error during the request");
         });
     }
 
@@ -117,18 +117,196 @@ class User{
             if (!response.ok) {
                 socket.emit("UserError","This user dosent exit")
             }
+            return response.json();
         })
-        .catch(error => socket.emit("UserError",error));
-
+        .then(data => {
+            const user = data.find(u => u.UserUuid === UserUuid);
+            const toSend = {
+                UserName : user.UserName,
+                UserFirstName : user.UserFirstName,
+                UserMail: user.UserMail
+            }
+            socket.emit("profilInfo", toSend);
+        })
+        .catch(error => socket.emit("UserError","user not found"));
     }
 
-    UserModif(userinfo) {
+/** 
+ * method used to update the user information
+*/
+    async UserModif(userinfo, socket) {
+        if (userinfo.UserPwd == "") {
+            console.error("Error, empty password");
+            socket.emit("Error", "Error, empty password");
+        }
+        if(userinfo.UserUuid == "" || userinfo.UserPwd == "") {
+            socket.emit("Error", "the uuid or the password are empty");
+            return;
+        };
+        fetch(this.apiurl + "?UserUuid="+userinfo.UserUuid, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                socket.emit("Error", "This user dosen't exist");
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            const user = data.find(u => u.UserUuid === userinfo.UserUuid);
+    
+            if (!user) {
+                console.error("Error, there is no user with this uuid");
+                socket.emit("Error", "there is no user with this uuid");
+                return;
+            }
+    
+            bcrypt.compare(userinfo.UserPwd, user.UserPwd, async (err, result) => {
+                if (err) {
+                    console.error('Error bcrypt.compare :', err);
+                    socket.emit("Error", "Password dosen't match");
+                } else if (result) {
+                    const toSend = {
+                        UserName : '',
+                        UserFirstName : '',
+                        UserPwd: "",
+                        UserMail: ""
+                    }
+                    
+                    for (const [key, value] of Object.entries(userinfo)) {
+                        if (key === "NewUserPwd" || key === "UserPwd") {
+                            if (key === "NewUserPwd" && value !== "") {
+                                toSend.UserPwd = value;
+                            } else if (key === "UserPwd" && !toSend.UserPwd) {
+                                toSend.UserPwd = user.UserPwd;
+                            }
+                        } else {
+                            toSend[key] = value !== "" ? value : user[key];
+                        }
+                    }
+                    
+                    if (toSend.UserPwd !== user.UserPwd){
+                        const salt = await bcrypt.genSalt(this.saltRounds);
+                        toSend.UserPwd = await bcrypt.hash(toSend.UserPwd, salt);
+                    }
+            
+                    //send modification to the api
+                    fetch(this.apiurl +"/"+ userinfo.UserUuid,{
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(toSend),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            socket.emit("Error", "This user dosen't exist");
+                            return;
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                        socket.emit("UserModificationSuccess", true);
+                    })
+                    .catch(error => {
+                        console.error('Error during the request:', error.message);
+                        socket.emit("Error", error.message);
+                    });
 
+                } else {
+                    socket.emit("Error", "Password dosen't match");
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error during the request:', error);
+            socket.emit("Error", "Error during the request");
+        });
     }
 
-    UserDel(hashpsw) {
+/** 
+ * method used to delete an user
+*/
+    async UserDel(userinfo, socket) {
+        if(userinfo.UserPwd == "") {
+            socket.emit("Error", "the password canot be empty");
+            return;
+        };
 
+        fetch(this.apiurl + "?UserUuid="+userinfo.UserUuid, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                socket.emit("Error", "This user dosen't exist");
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            const user = data.find(u => u.UserUuid === userinfo.UserUuid);
+    
+            if (!user) {
+                console.error("Error, user not found");
+                socket.emit("Error", "user not found");
+                return;
+            }
+            if (!userinfo.UserPwd || !user.UserPwd) {
+                console.error("Error, empty password");
+                socket.emit("Error", "empty password");
+                return;
+            }
+    
+            bcrypt.compare(userinfo.UserPwd, user.UserPwd, (err, result) => {
+                if (err) {
+                    console.error('Erreur bcrypt.compare :', err);
+                    socket.emit("Error", "Error during password comparaison");
+                } else if (result) {
+                    fetch(this.apiurl + "/"+userinfo.UserUuid, {
+                        method: "DELETE"
+                      })
+                      .then(response => {
+                        if (!response.ok) {
+                            console.log('Error:', response);
+                            socket.emit("Error", "Error during conection");
+                            return;
+                        } else {
+                          return response.json();
+                        }
+                      })
+                      .then(data => {
+                        if (data) {
+                            console.log(`User sucefuly deleted`);
+                            socket.emit('UserSucefulyDelete', true);
+                            return;
+                        }
+                      })
+                      .catch(error => {
+                        console.error('Error:', error);
+                        socket.emit("Error", error);
+                        return;
+                      });
+                } else {
+                    socket.emit("Error", "Password dosen't match");
+                    return;
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error during the request :', error);
+            socket.emit("Error", "Error during the request");
+            return;
+        });
     }
+
 /**
  * a method to see if user information match to the object needed 
  */

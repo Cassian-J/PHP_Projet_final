@@ -2,3 +2,4 @@
 ## Front
 ### dependencies
         npm install
+        php artisan migrate 

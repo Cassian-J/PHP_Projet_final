@@ -2,9 +2,6 @@ import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
 
 window.socket = io();
 
-if (document.cookie.includes("UserUuid")) {
-    document.location.href = "/My_Hero_App";
-}
 document.getElementById("signIn").onclick = function() {document.location.href="/";};
 
 // to clear the psw and to unclear it
@@ -30,7 +27,7 @@ document.getElementById('signUp').onclick = function () {
     };
     var pwd1 = document.getElementById("passwordSignUp").value;
     var pwd2 = document.getElementById("passwordSignUp2").value;
-    if (pwd1 == pwd2) {
+    if (pwd1 === pwd2) {
         userinfo.UserPwd = pwd1;
     } else {
         alert("Pasword need to be the same");

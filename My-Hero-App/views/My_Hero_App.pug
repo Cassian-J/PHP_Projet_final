@@ -1,6 +1,48 @@
 extends layout
 
 block content
+
+  div(id="popup" class="popup")
+    div(class="popup-content")
+      button(class="close-popup") Close
+      p(ID="infoName")
+      p(ID="infoFirstName")
+      p(ID="infoMail")
+      form(method="POST")
+        input(type="text"  ID="userName" required autofocus placeholder="enter name" class="entry")
+        input(type="text"  ID="userFirstName" required autofocus placeholder="enter your first name" class="entry")
+        input(type="text"  ID="userMail" required autofocus placeholder="enter your email" class="entry")
+        article(class="password-container")
+          input(type="password" minlength="8" ID="newPassword" required autofocus placeholder="enter yout password" id="pwd" class="entry")
+          button(type="button" id="togglePassword" class="toggle-button")
+          i(class="fa-solid fa-eye")
+        article(class="password-container")
+          input(type="password" minlength="8" ID="newPassword2" required autofocus placeholder="retipe your password" id="pwd2" class="entry")
+          button(type="button" id="togglePassword2" class="toggle-button")
+          i(class="fa-solid fa-eye")
+        button(Id = "ChangeUserInfo" type="button" class="btn") Change information
+
+        button(Id = "UserDel" type="button" class="btn") Delete user
+
+  div(id="popup-del" class="popup-del")
+    div(class="popup-content")
+      button(class="close-del") Close
+      article(class="password-container")
+        input(type="password" minlength="8" ID="pwdUserDel" required autofocus placeholder="enter your password" id="pwd" class="entry")
+        button(type="button" id="togglePassword" class="toggle-button")
+        i(class="fa-solid fa-eye")
+      button(Id = "SendUserDel" type="button" class="btn") Delete user
+
+  div(id="popup-change" class="popup-change")
+    div(class="popup-content")
+      button(class="close-change") Close
+      article(class="password-container")
+        input(type="password" minlength="8" ID="pwdChangeUser" required autofocus placeholder="enter your password" id="pwd" class="entry")
+        button(type="button" id="togglePassword" class="toggle-button")
+        i(class="fa-solid fa-eye")
+      button(Id = "SendChangeUserInfo" type="button" class="btn") Change information
+
+  button(id="AcountPopup") Acount
   h1 Welcome to #{title}
-  
+
   script(type = 'module' src='/javascripts/My_Hero_App.js')
