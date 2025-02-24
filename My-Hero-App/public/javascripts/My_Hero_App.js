@@ -1,5 +1,5 @@
 import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
-import {getCookie} from "cookies.js";
+import { getCookie } from "./cookies.js";
 
 window.socket = io();
 
@@ -14,6 +14,8 @@ socket.on("UserError", message => {
     document.location.href="/";
 });
 //
+
+document.getElementById("squad").onclick = function() {document.location.href="/squad";};
 
 // set user information un profil
 socket.on("profilInfo", userinfo => {

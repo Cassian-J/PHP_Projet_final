@@ -1,14 +1,20 @@
-var {Server} = require("socket.io"); 
+var { Server } = require("socket.io");
 var User = require("./user");
 var Hero = require("./create_hero");
+var Squad = require("./squad");
+var SuperPower = require("./super_power");
+var EnginType = require("./engin_type");
 
 /**
-*   The manager class will manage the reception of all incoming socket requests from clients
-*   and redirect them to the appropriate class to make API requests and send responses to the client.
-*/
-class Manager{
+ * The manager class will manage the reception of all incoming socket requests from clients
+ * and redirect them to the appropriate class to make API requests and send responses to the client.
+ */
+class Manager {
     user = new User();
     superHero = new Hero();
+    squad = new Squad();
+    superPower = new SuperPower();
+    enginType = new EnginType();
     io;
 
     constructor(serveur) {
@@ -19,8 +25,7 @@ class Manager{
         this.io.on("connection", (socket) => {
             console.info(`Client connected [id=${socket.id}]`);
             console.log(this.io.sockets.server.engine.clientsCount);
-            
-            // User-related events
+
             socket.on("newUser", userinfo => {
                 this.user.CreateNewUser(userinfo, socket);
             });
@@ -32,7 +37,7 @@ class Manager{
             socket.on("CheckUserUuid", UserUuid => {
                 this.user.UserCheckConection(UserUuid, socket);
             });
-            
+
             socket.on("UserDel", userinfo => {
                 this.user.UserDel(userinfo, socket);
             });
@@ -44,11 +49,38 @@ class Manager{
             socket.on("newHero", heroInfo => {
                 this.superHero.CreateNewHero(heroInfo, socket);
             });
-            
-            
-    
 
-          
+            socket.on("createSquad", squadInfo => {
+                this.squad.createSquad(squadInfo, socket);
+            });
+
+            socket.on("getAllSquads", userUuid => {
+                this.squad.getAllSquads(userUuid, socket);
+            });
+
+            socket.on("deleteSquad", squadInfo => {
+                this.squad.deleteSquad(squadInfo, socket);
+            });
+
+            socket.on("createSuperPower", superPowerInfo => {
+                this.superPower.createSuperPower(superPowerInfo, socket);
+            });
+
+            socket.on("getAllSuperPowers", userUuid => {
+                this.superPower.getAllSuperPowers(userUuid, socket);
+            });
+
+            socket.on("deleteSuperPower", superPowerInfo => {
+                this.superPower.deleteSuperPower(superPowerInfo, socket);
+            });
+
+            socket.on("createEnginType", enginTypeInfo => {
+                this.enginType.createEnginType(enginTypeInfo, socket);
+            });
+
+            socket.on("getAllEnginTypes", userUuid => {
+                this.enginType.getAllEnginTypes(userUuid, socket);
+            });
         });
     }
 
@@ -58,7 +90,7 @@ class Manager{
      */
     static getInstance(serveur) {
         if (!this.instance) {
-          this.instance = new Manager(serveur);
+            this.instance = new Manager(serveur);
         }
         return this.instance;
     }
