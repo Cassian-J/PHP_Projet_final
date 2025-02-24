@@ -53,6 +53,7 @@ class Manager {
             socket.on("newHero", heroInfo => {
                 this.superHero.CreateNewHero(heroInfo, socket);
             });
+
             socket.on("newCity", cityInfo => {
                 this.city.CreateNewCity(cityInfo, socket);
             });
@@ -61,6 +62,8 @@ class Manager {
                 this.planet.CreateNewPlanet(planetInfo, socket);
             });
             
+            
+    
 
             socket.on("createSquad", squadInfo => {
                 this.squad.createSquad(squadInfo, socket);

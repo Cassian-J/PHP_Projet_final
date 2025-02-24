@@ -36,6 +36,7 @@ class City{
         }
     }
 
+
     // SendCity(CityUuid,socket) {
     //     fetch(this.apiurl +"?CityUuid="+ CityUuid, {
     //         method: 'GET',

@@ -30,14 +30,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', signinRouter);
 app.use('/signup', signupRouter);
 app.use('/My_Hero_App', heroAppRouter);
+
 app.use('/create_hero', heroRouter);
 app.use('/squad',squadRouter);
 app.use('/superpower',superPowerRouter);
 app.use('/engin_type',enginTypeRouter);
+
 app.use('/create_hero', createHeroRouter);
 app.use('/city', createCityRouter);
 app.use('/planet', createPlanetRouter);
 app.use('/index',indexAppRouter);
+
 
 // Middleware de vérification automatique de connexion
 /*app.use((req, res, next) => {
