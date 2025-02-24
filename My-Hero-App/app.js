@@ -13,8 +13,6 @@ var enginTypeRouter = require("./routes/engin_type");
 var createHeroRouter = require("./routes/create_hero");
 var createCityRouter = require("./routes/city");
 var createPlanetRouter = require("./routes/planet");
-
-var indexAppRouter = require("./routes/index")
 var app = express();
 
 // view engine setup
@@ -38,7 +36,6 @@ app.use('/engin_type',enginTypeRouter);
 app.use('/create_hero', createHeroRouter);
 app.use('/city', createCityRouter);
 app.use('/planet', createPlanetRouter);
-app.use('/index',indexAppRouter);
 
 
 // Middleware de vérification automatique de connexion

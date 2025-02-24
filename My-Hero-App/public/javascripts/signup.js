@@ -44,6 +44,7 @@ document.getElementById('signUp').onclick = function () {
 
 // when the user are sucefuly created
 socket.on("UserCréationSucess", sucess => {
+    document.cookie = "UserUuid="+UserUuid;
     document.location.href="/";
 });
 

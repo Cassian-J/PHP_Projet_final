@@ -10,6 +10,7 @@ use App\Http\Controllers\GuideController;
 use App\Http\Controllers\PlanetController;
 use App\Http\Controllers\EnginController;
 use App\Http\Controllers\EnginTypeController;
+use App\Http\Controllers\SuperPower_SuperHeroController;
 use Illuminate\Support\Facades\Route;
 
 Route::apiResource('gadget', GadgetController::class);
@@ -21,6 +22,8 @@ Route::apiResource('users', UsersController::class);
 Route::apiResource('super_power', SuperPowerController::class);
 
 Route::apiResource('super_hero', Super_HeroController::class);
+
+Route::apiResource('superpower_superhero', SuperPower_SuperHeroController::class);
 
 Route::apiResource('city', CityController::class);
 
