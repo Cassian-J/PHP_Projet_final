@@ -3,9 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 var signinRouter = require("./routes/signin");
 var signupRouter = require("./routes/signup");
+var heroAppRouter = require("./routes/My_Hero_App");
 var app = express();
 
 // view engine setup
@@ -20,6 +20,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', signinRouter);
 app.use('/signup', signupRouter);
+app.use('/My_Hero_App', heroAppRouter);
+
+// Middleware de vérification automatique de connexion
+app.use((req, res, next) => {
+  if (req.cookies.UserUuid && req.path !== '/My_Hero_App') {
+    return res.redirect('/My_Hero_App');
+  }
+  next();
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -28,11 +37,8 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });

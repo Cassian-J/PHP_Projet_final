@@ -10,5 +10,5 @@ class Squad extends Model
     use HasFactory;
 
     protected $table = 'squad';
-    protected $fillable = ['SquadName'];
+    protected $fillable = ['SquadUuid','SquadName','UserUuid'];
 }

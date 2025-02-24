@@ -10,5 +10,5 @@ class Planet extends Model
     use HasFactory;
 
     protected $table = 'planet';
-    protected $fillable = ['PlanetName'];
+    protected $fillable = ['PlanetUuid','PlanetName','UserUuid'];
 }
