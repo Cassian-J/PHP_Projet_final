@@ -10,7 +10,10 @@ class Engin_Type extends Model
     use HasFactory;
 
     protected $table = 'enginType';
-    protected $fillable = ['EnginTypeUuid','EnginTypeName','UserUuid'];
+    protected $primaryKey = 'UserUuid';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $fillable = ['EnginTypeUuid','EnginTypeName',];
 
 
 }

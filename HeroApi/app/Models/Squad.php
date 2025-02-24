@@ -10,5 +10,8 @@ class Squad extends Model
     use HasFactory;
 
     protected $table = 'squad';
-    protected $fillable = ['SquadUuid','SquadName','UserUuid'];
+    protected $primaryKey = 'UserUuid';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $fillable = ['SquadUuid','SquadName'];
 }

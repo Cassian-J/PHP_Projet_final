@@ -10,5 +10,8 @@ class Guide extends Model
     use HasFactory;
 
     protected $table = 'guide';
-    protected $fillable = ['SuperHeroUuid','Weakness','Strength','Dengerousness','DestroyingPlan','UserUuid'];
+    protected $primaryKey = 'UserUuid';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $fillable = ['SuperHeroUuid','Weakness','Strength','Dengerousness','DestroyingPlan'];
 }

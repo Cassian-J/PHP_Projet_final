@@ -10,5 +10,8 @@ class Gadget extends Model
     use HasFactory;
 
     protected $table = 'gadget';
-    protected $fillable = ['GadgetUuid','SuperHeroUuid','GadgetName','GadgetDescription','UserUuid'];
+    protected $primaryKey = 'UserUuid';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $fillable = ['GadgetUuid','SuperHeroUuid','GadgetName','GadgetDescription'];
 }

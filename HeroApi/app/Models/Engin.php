@@ -10,7 +10,10 @@ class Engin extends Model
     use HasFactory;
 
     protected $table = 'engin';
-    protected $fillable = ['EnginUuid','SuperHeroUuid','EnginName','EnginDescription','UserUuid'];
+    protected $primaryKey = 'UserUuid';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $fillable = ['EnginUuid','SuperHeroUuid','EnginName','EnginDescription'];
 
 
 }
