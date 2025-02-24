@@ -9,7 +9,9 @@ var heroAppRouter = require("./routes/My_Hero_App");
 var createHeroRouter = require("./routes/create_hero");
 var createCityRouter = require("./routes/city");
 var createPlanetRouter = require("./routes/planet");
-
+var squadRouter = require("./routes/squad");
+var superPowerRouter = require("./routes/super_power");
+var enginTypeRouter = require("./routes/engin_type");
 var app = express();
 
 // view engine setup
@@ -28,15 +30,18 @@ app.use('/My_Hero_App', heroAppRouter);
 app.use('/create_hero', createHeroRouter);
 app.use('/city', createCityRouter);
 app.use('/planet', createPlanetRouter);
+app.use('/squad',squadRouter);
+app.use('/superpower',superPowerRouter);
+app.use('/engin_type',enginTypeRouter);
 
 // Middleware de vérification automatique de connexion
-app.use((req, res, next) => {
+/*app.use((req, res, next) => {
   if (req.cookies.UserUuid && req.path !== '/My_Hero_App') {
     return res.redirect('/My_Hero_App');
   }
   next();
 });
-
+*/
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

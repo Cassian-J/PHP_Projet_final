@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  section(class="box")
+    h1 Gestion des Squads
+    img(src="/images/sign.png")
+    
+    form(method="POST")
+      input(type="text" id="squadName" required autofocus placeholder="Nom du Squad" class="entry")
+      button(id="createSquad" type="button" class="btn") Créer Squad
+
+  script(type='module' src='/javascripts/squad_My_Hero_App.js')
+    script(type='module' src='/javascripts/cookies.js')
+

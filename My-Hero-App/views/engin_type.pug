@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  section(class="box")
+    h1 Gestion des Engin Types
+    img(src="/images/sign.png")
+    
+    form(method="POST")
+      input(type="text" id="enginTypeName" required autofocus placeholder="Nom de l'Engin Type" class="entry")
+      button(id="createEnginType" type="button" class="btn") Créer Engin Type
+
+    script(type='module' src='/javascripts/engin_type_My_Hero_App.js')
+    script(type = 'module' src='/javascripts/cookies.js')

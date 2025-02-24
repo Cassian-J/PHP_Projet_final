@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  section(class="box")
+    h1 Gestion des Super Powers
+    img(src="/images/sign.png")
+    
+    form(method="POST")
+      input(type="text" id="superPowerName" required autofocus placeholder="Nom du Super Power" class="entry")
+      input(type="text" id="superPowerDesc" required autofocus placeholder="Description" class="entry")
+
+      button(id="createSuperPower" type="button" class="btn") Créer Super Power
+  script(type='module' src='/javascripts/super_power_My_Hero_App.js')
+  script(type = 'module' src='/javascripts/cookies.js')
