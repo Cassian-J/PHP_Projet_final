@@ -17,8 +17,48 @@
     </a>
   </header>
 
-  <main>
-    
+  <main>   
+    <!-- Your Modify Hero Button -->
+  <button class="button" id="openBtn">Modifier le Héro</button>
+
+  <!-- Modify Hero Popup -->
+  <div id="popup-hero" class="popup">
+    <div class="popup-content">
+        <span id="closeBtn" class="close">&times;</span>
+        <h2>Modifier et Afficher</h2>
+        <form id="heroForm">
+            <label for="heroName">Nom du Héro :</label>
+            <input type="text" id="heroName" name="heroName"><br><br>
+
+            <label for="heroGroup">Groupe du Héro :</label>
+            <input type="text" id="heroGroup" name="heroGroup"><br><br>
+
+            <label for="heroGender">Sexe du Héro :</label>
+            <select id="heroGender" name="heroGender">
+                <option value="homme">Homme</option>
+                <option value="femme">Femme</option>
+                <option value="autres">Autres</option>
+            </select><br><br>
+
+            <label for="heroPlanet">Planète du Héro :</label>
+            <input type="text" id="heroPlanet" name="heroPlanet"><br><br>
+
+            <label for="heroCity">Ville du Héro :</label>
+            <input type="text" id="heroCity" name="heroCity"><br><br>
+
+            <label for="heroPower">Pouvoir du Héro :</label>
+            <input type="text" id="heroPower" name="heroPower"><br><br>
+
+            <label for="heroVehicle">Véhicules du Héro :</label>
+            <input type="text" id="heroVehicle" name="heroVehicle"><br><br>
+
+            <label for="heroWeapon">Armes du Héro :</label>
+            <input type="text" id="heroWeapon" name="heroWeapon"><br><br>
+
+            <button type="submit">Enregistrer</button>
+        </form>
+    </div>
+  </div>
     <div class="container">
       <div class="cards-hero-grid">
         <!-- From Uiverse.io by joe-watson-sbf --> 
