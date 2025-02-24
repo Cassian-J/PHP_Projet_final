@@ -13,5 +13,5 @@ class Super_Hero extends Model
     protected $primaryKey = 'SuperHeroUuid';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['SuperHeroUuid','UserUuid','SuperHeroName','SuperHeroSex','SuperHeroDescription'];
+    protected $fillable = ['SuperHeroUuid','UserUuid','SuperHeroName','SuperHeroSex','SuperHeroDescription','ProtectedCityUuid','SquadUuid','HomePlanetUuid'];
 }
