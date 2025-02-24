@@ -23,6 +23,7 @@ socket.on("profilInfo", userinfo => {
   document.getElementById("infoFirstName").innerHTML = userinfo.UserFirstName;
   document.getElementById("infoMail").innerHTML = userinfo.UserMail;
 })
+
 //
 
 // to clear the psw and to unclear it

@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  section(class="box")
+    h1 Create Planet #{title}
+    
+    form(method="POST")
+      input(type="text" id="planetName" required autofocus placeholder="enter name planet" class="entry")
+      button(id="create_planet" type="button" class="btn") Create planet
+        
+  script(type='module' src='/javascripts/planet.js')
