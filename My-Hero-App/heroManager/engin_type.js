@@ -6,9 +6,6 @@ class EnginType {
 
     async createEnginType(engineTypeInfo, socket) {
         try {
-            if (!engineTypeInfo.EnginTypeName) {
-                throw new Error("Engin Type Name is required");
-            }
             engineTypeInfo.EnginTypeUuid = v4();
             
             fetch(this.apiurl, {

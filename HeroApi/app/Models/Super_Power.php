@@ -10,10 +10,10 @@ class Super_Power extends Model
     use HasFactory;
 
     protected $table = 'superPower';
-    protected $primaryKey = 'UserUuid';
+    protected $primaryKey = 'SuperPowerUuid';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['SuperPowerUuid','SuperPowerName','SuperPowerDescription'];
+    protected $fillable = ['SuperPowerUuid','UserUuid','SuperPowerName','SuperPowerDescription'];
 
 
 }

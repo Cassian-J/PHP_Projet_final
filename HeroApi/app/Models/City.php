@@ -10,9 +10,9 @@ class City extends Model
     use HasFactory;
 
     protected $table = 'city';
-    protected $primaryKey = 'UserUuid';
+    protected $primaryKey = 'CityUuid';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['CityUuid','CityName'];
+    protected $fillable = ['CityUuid','UserUuid','CityName'];
 
 }

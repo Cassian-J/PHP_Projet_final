@@ -10,8 +10,8 @@ class Super_Hero extends Model
     use HasFactory;
 
     protected $table = 'superHero';
-    protected $primaryKey = 'UserUuid';
+    protected $primaryKey = 'SuperHeroUuid';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['SuperHeroUuid','SuperHeroName','SuperHeroSex','SuperHeroDescription'];
+    protected $fillable = ['SuperHeroUuid','UserUuid','SuperHeroName','SuperHeroSex','SuperHeroDescription'];
 }

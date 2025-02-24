@@ -7,7 +7,7 @@ var UserUuid = getCookie("UserUuid");
 squadInfo.UserUuid=UserUuid;
 document.getElementById("createSquad").onclick = function () {
     const squadName = document.getElementById("squadName").value;
-    squadInfo.squadName = squadName;
+    squadInfo.SquadName = squadName;
     if (squadName !== "") {
         socket.emit("createSquad", squadInfo);
     } else {

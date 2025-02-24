@@ -1,11 +1,11 @@
 var { Server } = require("socket.io");
 var User = require("./user");
 var Hero = require("./create_hero");
-var City = require("./city");
-var Planet = require("./planet");
 var Squad = require("./squad");
 var SuperPower = require("./super_power");
 var EnginType = require("./engin_type");
+var City = require("./city");
+var Planet = require("./planet");
 
 /**
  * The manager class will manage the reception of all incoming socket requests from clients
@@ -14,11 +14,11 @@ var EnginType = require("./engin_type");
 class Manager {
     user = new User();
     superHero = new Hero();
-    city = new City();
-    planet = new Planet();
     squad = new Squad();
     superPower = new SuperPower();
     enginType = new EnginType();
+    city = new City();
+    planet = new Planet();
     io;
 
     constructor(serveur) {
