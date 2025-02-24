@@ -1,6 +1,8 @@
 var {Server} = require("socket.io"); 
 var User = require("./user");
 var Hero = require("./create_hero");
+var City = require("./city");
+var Planet = require("./planet");
 
 /**
 *   The manager class will manage the reception of all incoming socket requests from clients
@@ -9,6 +11,8 @@ var Hero = require("./create_hero");
 class Manager{
     user = new User();
     superHero = new Hero();
+    city = new City();
+    planet = new Planet();
     io;
 
     constructor(serveur) {
@@ -43,6 +47,14 @@ class Manager{
 
             socket.on("newHero", heroInfo => {
                 this.superHero.CreateNewHero(heroInfo, socket);
+            });
+
+            socket.on("newCity", cityInfo => {
+                this.city.CreateNewCity(cityInfo, socket);
+            });
+
+            socket.on("newPlanet",planetInfo => {
+                this.planet.CreateNewPlanet(planetInfo, socket);
             });
             
             
