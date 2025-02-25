@@ -25,9 +25,9 @@ return new class extends Migration
 
             $table->longText('SuperHeroDescription');
 
-            $table->foreignUuid('ProtectedCityUuid')->references('CityUuid')->on('city');
+            $table->foreignUuid('ProtectedCityUuid')->references('CityUuid')->on('city')->nullable();
 
-            $table->foreignUuid('SquadUuid')->references('SquadUuid')->on('squad');
+            $table->foreignUuid('SquadUuid')->references('SquadUuid')->on('squad')->nullable();
 
             $table->foreignUuid('UserUuid')->references('UserUuid')->on('users')->onDelete('cascade')->nullable(false);
 

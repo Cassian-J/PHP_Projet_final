@@ -1,0 +1,29 @@
+doctype html
+html
+    head
+        title Modifier un Héros
+        script(src="/javascripts/modifHero.js" type="module" defer)
+    body
+        h1 Modifier le héros
+        form#hero-form
+            input(type="hidden" name="hero-uuid" value=heroUuid)
+            
+            label(for="hero-name") Nom :
+            input(type="text" id="hero-name" name="hero-name")
+
+            label(for="hero-sex") Sexe :
+            input(type="text" id="hero-sex" name="hero-sex")
+
+            label(for="hero-description") Description :
+            textarea(id="hero-description" name="hero-description")
+
+            label(for="hero-planet") Planète d'origine :
+            input(type="text" id="hero-planet" name="hero-planet")
+
+            label(for="hero-city") Ville protégée :
+            input(type="text" id="hero-city" name="hero-city")
+
+            label(for="hero-squad") Escouade :
+            input(type="text" id="hero-squad" name="hero-squad")
+
+            button(type="button" onclick="updateHero()") Modifier
