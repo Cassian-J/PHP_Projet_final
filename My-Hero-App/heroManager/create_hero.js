@@ -226,19 +226,7 @@ class Hero {
                 socket.emit("Error", "Unauthorized action");
                 return;
             }
-    
-            const deleteLinkResponse = await fetch(`http://localhost:8000/api/superpower_superhero/${heroInfo.SuperHeroUuid}`, {
-                method: "DELETE",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-    
-            if (!deleteLinkResponse.ok) {
-                console.error('Error deleting linked superpowers:', deleteLinkResponse);
-                socket.emit("Error", "Error deleting linked superpowers");
-                return;
-            }
+
     
             const deleteResponse = await fetch(`${this.apiurl}/${heroInfo.SuperHeroUuid}`, {
                 method: "DELETE",

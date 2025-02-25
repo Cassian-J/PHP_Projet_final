@@ -1,7 +1,6 @@
 import { getCookie } from "./cookies.js";
-
+const userUuid = getCookie("UserUuid");
 document.addEventListener("DOMContentLoaded", async () => {
-    const userUuid = getCookie("UserUuid");
     if (!userUuid) {
         alert("Utilisateur non authentifié !");
         return;
@@ -56,8 +55,8 @@ function displayHeroes(heroes) {
         button.addEventListener("click", function() {
             const heroUuid = this.getAttribute("data-hero-uuid");
             const heroInfo={
-                superHeroUuid :heroUuid,
-                UserUuid :UserUuid
+                SuperHeroUuid :heroUuid,
+                UserUuid : userUuid
             }
             socket.emit("deleteHero",heroInfo)
         });

@@ -115,7 +115,7 @@ class Manager {
                 this.superHero.UpdateHero(updatedHero, socket);
             });
             socket.on("deleteHero", deleteHero => {
-                this.superHero.UpdateHero(deleteHero, socket);
+                this.superHero.DeleteHero(deleteHero, socket);
             });
         });
     }
