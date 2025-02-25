@@ -6,9 +6,8 @@ html
         script(src="/javascripts/deletehero.js" type="module" defer)
     body
         h1 Modifier le héros
-        form#hero-form
-            input(type="hidden" name="hero-uuid" value=heroUuid)
-            
+        form
+           
             label(for="hero-name") Nom :
             input(type="text" id="hero-name" name="hero-name")
 
@@ -27,5 +26,4 @@ html
             label(for="hero-squad") Escouade :
             input(type="text" id="hero-squad" name="hero-squad")
 
-            button(type="button" onclick="updateHero()") Modifier
-            button(id="delete") Delete
+            button(type="button" id="modifier") Modifier

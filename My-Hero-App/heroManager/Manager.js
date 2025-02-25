@@ -111,7 +111,7 @@ class Manager {
             socket.on("getAllEnginTypes", userUuid => {
                 this.enginType.getAllEnginTypes(userUuid, socket);
             });
-            socket.on("modificationHero", updatedHero => {
+            socket.on("UpdateHero", updatedHero => {
                 this.superHero.UpdateHero(updatedHero, socket);
             });
             socket.on("deleteHero", deleteHero => {
