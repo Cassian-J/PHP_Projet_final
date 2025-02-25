@@ -1,18 +1,16 @@
 import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
-
+import { getCookie } from "./cookies.js";
 window.socket = io();
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const heroUuid = urlParams.get("uuid");
+    const heroUuid = getCookie("heroUuid");
+
 
     if (!heroUuid) {
         alert("Aucun héros sélectionné !");
         window.location.href = "/My-Hero-App"; 
         return;
     }
-
-    document.getElementById("hero-uuid").value = heroUuid;
 
     try {
         const response = await fetch(`http://localhost:8000/api/super_hero/${heroUuid}`);
@@ -25,8 +23,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         alert("Impossible de charger les informations du héros.");
     }
 
-    document.getElementById("hero-form").addEventListener("submit", async (event) => {
-        event.preventDefault();
+    
+    document.getElementById("modifier").addEventListener("click", () => {
         updateHero(heroUuid);
     });
 });
@@ -40,25 +38,56 @@ function fillHeroForm(hero) {
     document.getElementById("hero-squad").value = hero.SquadUuid || "";
 }
 
-async function updateHero() {
-    const heroForm = document.getElementById("hero-form");
-    const heroUuid = heroForm["hero-uuid"].value;
+async function updateHero(heroUuid) {
+    try {
+        
+        const heroName = document.getElementById("hero-name").value;
+        const heroSex = document.getElementById("hero-sex").value;
+        const heroDescription = document.getElementById("hero-description").value;
+        const heroPlanet = document.getElementById("hero-planet").value;
+        const heroCity = document.getElementById("hero-city").value;
+        const heroSquad = document.getElementById("hero-squad").value;
 
-    const updatedHero = {
-        SuperHeroUuid: heroUuid
-    };
-    if (heroForm["hero-name"].value.trim()) updatedHero.SuperHeroName = heroForm["hero-name"].value.trim();
-    if (heroForm["hero-sex"].value.trim()) updatedHero.SuperHeroSex = heroForm["hero-sex"].value.trim();
-    if (heroForm["hero-description"].value.trim()) updatedHero.SuperHeroDescription = heroForm["hero-description"].value.trim();
-    if (heroForm["hero-planet"].value.trim()) updatedHero.HomePlanetUuid = heroForm["hero-planet"].value.trim();
-    if (heroForm["hero-city"].value.trim()) updatedHero.ProtectedCityUuid = heroForm["hero-city"].value.trim();
-    if (heroForm["hero-squad"].value.trim()) updatedHero.SquadUuid = heroForm["hero-squad"].value.trim();
+        
+        if (!heroName || !heroSex || !heroDescription || !heroPlanet) {
+            alert("Veuillez remplir tous les champs obligatoires !");
+            return;
+        }
 
-    if (Object.keys(updatedHero).length === 0) {
-        alert("Aucune modification apportée.");
-        return;
-    } else {
-        socket.emit("modificationHero", updatedHero);
+
+        const heroData = {
+            SuperHeroName: heroName,
+            SuperHeroSex: heroSex,
+            SuperHeroDescription: heroDescription,
+            HomePlanetUuid: heroPlanet,
+            ProtectedCityUuid: heroCity || null,
+            SquadUuid: heroSquad || null
+        };
+
+       
+        const response = await fetch(`http://localhost:8000/api/super_hero/${heroUuid}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(heroData)
+        });
+
+        if (!response.ok) {
+            throw new Error("Erreur lors de la mise à jour du héros.");
+        }
+
+        const updatedHero = await response.json();
+        
+        
+        alert("Héros modifié avec succès !");
+        
+      
+        window.socket.emit('hero-updated', updatedHero);
+        window.location.href = `/My-Hero-App/hero/${heroUuid}`;
+        
+    } catch (error) {
+        console.error("Erreur:", error);
+        alert("Impossible de modifier le héros: " + error.message);
     }
-
 }
