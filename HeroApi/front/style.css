@@ -1,4 +1,3 @@
-/* Reset de base */
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +10,6 @@ body {
   text-align: center;
 }
 
-/* En-tête moderne avec une hauteur plus grande */
 header {
   position: fixed;
   top: 0;
@@ -21,44 +19,39 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 25px 40px;
-  height: 120px; /* Hauteur encore plus grande */
+  height: 120px;
   background: #353480;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
-/* Style pour les images (logo et compte) */
 .logo img,
 .account img {
-  width: 80px; /* Taille augmentée */
-  height: 80px; /* Taille augmentée */
-  border-radius: 50%; /* Rend l'image complètement ronde */
-  border: 3px solid white; /* Ajoute une bordure blanche subtile */
+  width: 80px; 
+  height: 80px; 
+  border-radius: 50%; 
+  border: 3px solid white; 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Effet au survol */
 .logo:hover img,
 .account:hover img {
   transform: scale(1.1);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
 }
 
-/* Ajustement du titre */
 .title {
   flex-grow: 1;
   text-align: center;
-  font-size: 30px; /* Agrandi pour correspondre aux nouvelles proportions */
+  font-size: 30px; /
   color: white;
   font-weight: bold;
 }
 
-/* Ajustement du contenu principal pour ne pas être caché sous l’en-tête */
 main {
-  padding: 140px 20px; /* Ajusté pour compenser l’en-tête plus grand */
+  padding: 140px 20px; 
 }
-/* From Uiverse.io by JkHuger */ 
 .login {
   color: #000;
   text-transform: uppercase;
@@ -263,7 +256,7 @@ main {
   background-color: rgb(0, 0, 0);
   color: white;
 }
-/* From Uiverse.io by dhanushrs1 */ 
+
 .button {
   --color: #2f7a9c;
   padding: 0.8em 2em;
@@ -348,26 +341,26 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
-  flex-direction: column; /* Stack the buttons vertically */
-  gap: 20px; /* Add space between the buttons */
+  height: 100vh; 
+  flex-direction: column; 
+  gap: 20px; 
 } 
 .filter-container {
   position: absolute;
-  top: 140px; /* Ajuste selon l'en-tête */
-  right: 20px; /* Aligné à droite */
-  width: 200px; /* Ajuste la largeur si nécessaire */
+  top: 140px; 
+  right: 20px; 
+  width: 200px; 
   background: #ffffff;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: left;
-  z-index: 10; /* S'assure qu'il reste au-dessus des cartes */
+  z-index: 10; 
 }
 
 main {
-  position: relative; /* Nécessaire pour que le positionnement absolu fonctionne */
-  padding-top: 160px; /* Ajuste pour éviter le chevauchement avec l'en-tête */
+  position: relative; 
+  padding-top: 160px; 
 }
 
 
@@ -388,7 +381,7 @@ main {
   margin-right: 5px;
   cursor: pointer;
 } 
-/* From Uiverse.io by joe-watson-sbf */ 
+
 .flip-card {
   background-color: transparent;
   width: 190px;
@@ -447,37 +440,37 @@ main {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px; /* Espacement entre les cartes */
-  max-width: 1000px; /* Ajuste selon la largeur souhaitée */
-  margin: 0 auto; /* Centrage */
+  gap: 20px; 
+  max-width: 1000px; 
+  margin: 0 auto;
 }
 
 .flip-card {
-  flex: 1 1 calc(20% - 20px); /* 20% pour 5 cartes max par ligne, ajustement de l'espacement */
-  max-width: 190px; /* Assure que les cartes ne dépassent pas leur taille */
+  flex: 1 1 calc(20% - 20px); 
+  max-width: 190px; 
 }
 
 @media (max-width: 1024px) {
   .flip-card {
-    flex: 1 1 calc(33.33% - 20px); /* 3 cartes par ligne sur écrans plus petits */
+    flex: 1 1 calc(33.33% - 20px);
   }
 }
 
 @media (max-width: 768px) {
   .flip-card {
-    flex: 1 1 calc(50% - 20px); /* 2 cartes par ligne sur tablettes */
+    flex: 1 1 calc(50% - 20px); 
   }
 }
 
 @media (max-width: 480px) {
   .flip-card {
-    flex: 1 1 100%; /* 1 carte par ligne sur mobiles */
+    flex: 1 1 100%; 
   }
 }
 .button-container {
   display: flex;
-  justify-content: center; /* Centre horizontalement */
-  margin-top: 20px; /* Espacement au-dessus du bouton */
+  justify-content: center;
+  margin-top: 20px; 
 }
 
 .button {

@@ -1,6 +1,3 @@
-// Ici, vous pouvez ajouter du JavaScript pour des fonctionnalités interactives, si nécessaire.
-// Par exemple, vous pouvez ajouter une animation pour l'en-tête ou la gestion de la connexion utilisateur.
-
 console.log("Bienvenue sur le site !");
 document.querySelectorAll('.category-toggle').forEach(toggle => {
     toggle.addEventListener('change', function() {
@@ -62,7 +59,6 @@ document.querySelectorAll('.hero-card').forEach(card => {
   });
 });
 
-// Fermer le popup
 document.querySelector('.close-btn').addEventListener('click', function() {
   document.getElementById('hero-popup').style.display = "none";
 });
@@ -73,24 +69,21 @@ document.getElementById('hero-popup').addEventListener('click', function(e) {
   }
 });  
 
-// Sélectionner les éléments nécessaires
 const openBtn = document.getElementById('openBtn');
 const closeBtn = document.getElementById('closeBtn');
 const popup = document.getElementById('popup-hero');
 
-// Afficher le popup lorsque le bouton est cliqué
 openBtn.addEventListener('click', () => {
-  popup.style.display = 'block'; // Afficher le popup
+  popup.style.display = 'block'; 
 });
 
-// Fermer le popup lorsque la croix est cliquée
+
 closeBtn.addEventListener('click', () => {
-  popup.style.display = 'none'; // Cacher le popup
+  popup.style.display = 'none'; 
 });
 
-// Cacher le popup si on clique en dehors du contenu du popup
 window.addEventListener('click', (event) => {
   if (event.target === popup) {
-    popup.style.display = 'none'; // Cacher le popup
+    popup.style.display = 'none'; 
   }
 });
