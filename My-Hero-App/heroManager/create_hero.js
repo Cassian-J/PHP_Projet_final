@@ -194,7 +194,72 @@ class Hero {
             socket.emit("Error", error.message);
         }
     }
+    async DeleteHero(heroInfo, socket) {
+        if (!heroInfo.SuperHeroUuid) {
+            socket.emit("Error", "SuperHeroUuid is required");
+            return;
+        }
     
+        try {
+            const response = await fetch(`${this.apiurl}?SuperHeroUuid=${heroInfo.SuperHeroUuid}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                socket.emit("Error", "Superhero doesn't exist");
+                return;
+            }
+    
+            const data = await response.json();
+            const hero = data.find(h => h.SuperHeroUuid === heroInfo.SuperHeroUuid);
+    
+            if (!hero) {
+                console.error("Error, superhero not found");
+                socket.emit("Error", "Superhero not found");
+                return;
+            }
+    
+            if (hero.UserUuid !== heroInfo.UserUuid) {
+                socket.emit("Error", "Unauthorized action");
+                return;
+            }
+    
+            const deleteLinkResponse = await fetch(`http://localhost:8000/api/superpower_superhero/${heroInfo.SuperHeroUuid}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!deleteLinkResponse.ok) {
+                console.error('Error deleting linked superpowers:', deleteLinkResponse);
+                socket.emit("Error", "Error deleting linked superpowers");
+                return;
+            }
+    
+            const deleteResponse = await fetch(`${this.apiurl}/${heroInfo.SuperHeroUuid}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!deleteResponse.ok) {
+                console.error('Error:', deleteResponse);
+                socket.emit("Error", "Error during deletion");
+                return;
+            }
+    
+            console.log(`Superhero successfully deleted`);
+            socket.emit('HeroSuccessfullyDeleted', true);
+        } catch (error) {
+            console.error('Error during the request:', error);
+            socket.emit("Error", "Error during the request");
+        }
+    }
 }
 
 module.exports = Hero;

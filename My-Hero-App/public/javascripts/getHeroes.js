@@ -40,6 +40,7 @@ function displayHeroes(heroes) {
             <p><strong>Ville protégée:</strong> ${hero.ProtectedCityUuid || "N/A"}</p>
             <p><strong>Escouade:</strong> ${hero.SquadUuid || "N/A"}</p>
             <button class="modification" data-hero-uuid="${hero.SuperHeroUuid}">Modifier</button>
+            <button class="delete" data-hero-uuid="${hero.SuperHeroUuid}">delete</button>
         `;
 
         container.appendChild(heroDiv);
@@ -49,6 +50,16 @@ function displayHeroes(heroes) {
         button.addEventListener("click", function() {
             const heroUuid = this.getAttribute("data-hero-uuid");
             modifyHero(heroUuid);
+        });
+    });
+    document.querySelectorAll(".delete").forEach(button => {
+        button.addEventListener("click", function() {
+            const heroUuid = this.getAttribute("data-hero-uuid");
+            const heroInfo={
+                superHeroUuid :heroUuid,
+                UserUuid :UserUuid
+            }
+            socket.emit("deleteHero",heroInfo)
         });
     });
 }

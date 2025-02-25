@@ -6,7 +6,6 @@ var logger = require('morgan');
 var signinRouter = require("./routes/signin");
 var signupRouter = require("./routes/signup");
 var heroAppRouter = require("./routes/My_Hero_App");
-var heroRouter = require("./routes/create_hero");
 var squadRouter = require("./routes/squad");
 var superPowerRouter = require("./routes/super_power");
 var enginTypeRouter = require("./routes/engin_type");
@@ -15,6 +14,7 @@ var createCityRouter = require("./routes/city");
 var createPlanetRouter = require("./routes/planet");
 var showHeroRouter = require("./routes/showHero");
 var modifHeroRouter = require("./routes/modifHero");
+var indexRouter = require("./routes/index");
 var app = express();
 
 // view engine setup
@@ -41,6 +41,7 @@ app.use('/planet', createPlanetRouter);
 
 app.use('/modifhero', modifHeroRouter);
 app.use('/showhero', showHeroRouter);
+app.use('/index', indexRouter);
 
 
 // Middleware de vérification automatique de connexion

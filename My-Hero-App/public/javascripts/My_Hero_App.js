@@ -16,6 +16,11 @@ socket.on("UserError", message => {
 //
 
 document.getElementById("squad").onclick = function() {document.location.href="/squad";};
+document.getElementById("planet").onclick = function() {document.location.href="/planet";};
+document.getElementById("super_hero").onclick = function() {document.location.href="/createhero";};
+document.getElementById("super_power").onclick = function() {document.location.href="/superpower";};
+document.getElementById("city").onclick = function() {document.location.href="/city";};
+document.getElementById("index").onclick = function() {document.location.href="/index";};
 
 // set user information un profil
 socket.on("profilInfo", userinfo => {
