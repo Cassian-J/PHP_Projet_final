@@ -138,44 +138,58 @@ class Hero {
                 throw new Error("Error: the information format didn't match with the required.");
             }
     
-            const { SuperHeroUuid, SuperHeroName, SuperHeroSex, SuperHeroDescription, HomePlanetUuid, ProtectedCityUuid, SquadUuid } = updatedInfo;
+            const { SuperHeroUuid } = updatedInfo;
+            if (!SuperHeroUuid) {
+                throw new Error("Hero UUID is required");
+            }
     
+            
             const existingHeroResponse = await fetch(`${this.apiurl}/${SuperHeroUuid}`);
             if (!existingHeroResponse.ok) {
                 throw new Error("Hero not found");
             }
-    
             const hero = await existingHeroResponse.json();
             const userUuid = hero.UserUuid;
-    
-            let updatedData = {};
-    
-            if (SuperHeroName) updatedData.SuperHeroName = SuperHeroName;
-            if (SuperHeroSex) updatedData.SuperHeroSex = SuperHeroSex;
-            if (SuperHeroDescription) updatedData.SuperHeroDescription = SuperHeroDescription;
-    
-            if (HomePlanetUuid) {
-                const planetUuid = await this.getPlanetUuid(HomePlanetUuid, userUuid);
+            
+           
+            let updatedData = {
+                SuperHeroName: updatedInfo.SuperHeroName || hero.SuperHeroName,
+                SuperHeroSex: updatedInfo.SuperHeroSex || hero.SuperHeroSex,
+                SuperHeroDescription: updatedInfo.SuperHeroDescription || hero.SuperHeroDescription
+            };
+            
+           
+            if (updatedInfo.HomePlanetName) {
+                const planetUuid = await this.getPlanetUuid(updatedInfo.HomePlanetName, userUuid);
                 if (!planetUuid) throw new Error("Planète introuvable.");
                 updatedData.HomePlanetUuid = planetUuid;
+            } else if (updatedInfo.HomePlanetUuid) {
+                updatedData.HomePlanetUuid = updatedInfo.HomePlanetUuid;
+            } else {
+                updatedData.HomePlanetUuid = hero.HomePlanetUuid;
             }
-    
-            if (ProtectedCityUuid) {
-                const cityUuid = await this.getCityUuid(ProtectedCityUuid, userUuid);
-                if (!cityUuid) throw new Error("Ville introuvable.");
+            
+            if (updatedInfo.ProtectedCityName) {
+                const cityUuid = await this.getCityUuid(updatedInfo.ProtectedCityName, userUuid);
+                if (!cityUuid && updatedInfo.ProtectedCityName) throw new Error("Ville introuvable.");
                 updatedData.ProtectedCityUuid = cityUuid;
+            } else if (updatedInfo.ProtectedCityUuid) {
+                updatedData.ProtectedCityUuid = updatedInfo.ProtectedCityUuid;
+            } else {
+                updatedData.ProtectedCityUuid = hero.ProtectedCityUuid;
             }
-    
-            if (SquadUuid) {
-                const squadUuid = await this.getSquadUuid(SquadUuid, userUuid);
-                if (!squadUuid) throw new Error("Escouade introuvable.");
+            
+            if (updatedInfo.SquadName) {
+                const squadUuid = await this.getSquadUuid(updatedInfo.SquadName, userUuid);
+                if (!squadUuid && updatedInfo.SquadName) throw new Error("Escouade introuvable.");
                 updatedData.SquadUuid = squadUuid;
+            } else if (updatedInfo.SquadUuid) {
+                updatedData.SquadUuid = updatedInfo.SquadUuid;
+            } else {
+                updatedData.SquadUuid = hero.SquadUuid;
             }
-    
-            if (Object.keys(updatedData).length === 0) {
-                throw new Error("Aucune modification apportée.");
-            }
-    
+            
+           
             const updatedResponse = await fetch(`${this.apiurl}/${SuperHeroUuid}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -186,8 +200,16 @@ class Hero {
                 throw new Error('Failed to update hero');
             }
     
-            console.log("Hero updated successfully", updatedData);
-            socket.emit("HeroUpdateSuccess", true);
+            const updatedHero = await updatedResponse.json();
+            console.log("Hero updated successfully", updatedHero);
+            
+            
+            socket.emit("HeroUpdateSuccess", updatedHero);
+            
+           
+            if (socket.broadcast) {
+                socket.broadcast.emit('hero_updated', updatedHero);
+            }
     
         } catch (error) {
             console.error("Error in updating hero", error);

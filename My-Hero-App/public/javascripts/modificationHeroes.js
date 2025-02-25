@@ -40,31 +40,30 @@ function fillHeroForm(hero) {
 
 async function updateHero(heroUuid) {
     try {
-        
-        const heroName = document.getElementById("hero-name").value;
-        const heroSex = document.getElementById("hero-sex").value;
-        const heroDescription = document.getElementById("hero-description").value;
-        const heroPlanet = document.getElementById("hero-planet").value;
-        const heroCity = document.getElementById("hero-city").value;
-        const heroSquad = document.getElementById("hero-squad").value;
+       
+        const name = document.getElementById("hero-name").value;
+        const sex = document.getElementById("hero-sex").value;
+        const description = document.getElementById("hero-description").value;
+        const planetUuid = document.getElementById("hero-planet").value;
+        const cityUuid = document.getElementById("hero-city").value;
+        const squadUuid = document.getElementById("hero-squad").value;
 
-        
-        if (!heroName || !heroSex || !heroDescription || !heroPlanet) {
-            alert("Veuillez remplir tous les champs obligatoires !");
+        if (!name || !sex || !description || !planetUuid) {
+            alert("Veuillez remplir tous les champs obligatoires (nom, sexe, description et planète)");
             return;
         }
 
-
+       
         const heroData = {
-            SuperHeroName: heroName,
-            SuperHeroSex: heroSex,
-            SuperHeroDescription: heroDescription,
-            HomePlanetUuid: heroPlanet,
-            ProtectedCityUuid: heroCity || null,
-            SquadUuid: heroSquad || null
+            SuperHeroName: name,
+            SuperHeroSex: sex,
+            SuperHeroDescription: description,
+            HomePlanetUuid: planetUuid,
+            ProtectedCityUuid: cityUuid || null,
+            SquadUuid: squadUuid || null
         };
 
-       
+        
         const response = await fetch(`http://localhost:8000/api/super_hero/${heroUuid}`, {
             method: 'PUT',
             headers: {
@@ -74,20 +73,18 @@ async function updateHero(heroUuid) {
         });
 
         if (!response.ok) {
-            throw new Error("Erreur lors de la mise à jour du héros.");
+            throw new Error(`Erreur HTTP: ${response.status}`);
         }
 
         const updatedHero = await response.json();
         
+        alert("Héros mis à jour avec succès !");
         
-        alert("Héros modifié avec succès !");
+        window.socket.emit('hero_updated', updatedHero);
         
-      
-        window.socket.emit('hero-updated', updatedHero);
-        window.location.href = `/My-Hero-App/hero/${heroUuid}`;
-        
+        window.location.href = "/My-Hero-App";
     } catch (error) {
-        console.error("Erreur:", error);
-        alert("Impossible de modifier le héros: " + error.message);
+        console.error("Erreur lors de la mise à jour:", error);
+        alert("Erreur lors de la mise à jour du héros. Veuillez réessayer.");
     }
 }
