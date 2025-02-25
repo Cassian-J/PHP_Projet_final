@@ -20,8 +20,7 @@ class Hero {
             const superPowerUuid = await this.getSuperPowerUuid(heroInfo.autre.SuperPowerName, heroInfo.superhero.UserUuid);
             const planetUuid = await this.getPlanetUuid(heroInfo.autre.PlanetName, heroInfo.superhero.UserUuid);
             const cityUuid = await this.getCityUuid(heroInfo.autre.CityName, heroInfo.superhero.UserUuid);
-            console.log(squadUuid,superPowerUuid,planetUuid,cityUuid)
-            if (!squadUuid || !superPowerUuid || !planetUuid || !cityUuid) {
+            if ( !superPowerUuid || !planetUuid) {
                 throw new Error("One or more required entities do not exist. Hero cannot be created.");
             }
 
@@ -130,6 +129,69 @@ class Hero {
             console.log("Hero linked to superpower successfully!");
         } catch (error) {
             console.error("Error linking hero to superpower:", error);
+        }
+    }
+
+    async UpdateHero(updatedInfo, socket) {
+        try {
+            if (!this.validateHeroData(updatedInfo)) {
+                throw new Error("Error: the information format didn't match with the required.");
+            }
+    
+            const { SuperHeroUuid, SuperHeroName, SuperHeroSex, SuperHeroDescription, HomePlanetUuid, ProtectedCityUuid, SquadUuid } = updatedInfo;
+    
+            const existingHeroResponse = await fetch(`${this.apiurl}/${SuperHeroUuid}`);
+            if (!existingHeroResponse.ok) {
+                throw new Error("Hero not found");
+            }
+    
+            const hero = await existingHeroResponse.json();
+            const userUuid = hero.UserUuid;
+    
+            let updatedData = {};
+    
+            if (SuperHeroName) updatedData.SuperHeroName = SuperHeroName;
+            if (SuperHeroSex) updatedData.SuperHeroSex = SuperHeroSex;
+            if (SuperHeroDescription) updatedData.SuperHeroDescription = SuperHeroDescription;
+    
+            if (HomePlanetUuid) {
+                const planetUuid = await this.getPlanetUuid(HomePlanetUuid, userUuid);
+                if (!planetUuid) throw new Error("Planète introuvable.");
+                updatedData.HomePlanetUuid = planetUuid;
+            }
+    
+            if (ProtectedCityUuid) {
+                const cityUuid = await this.getCityUuid(ProtectedCityUuid, userUuid);
+                if (!cityUuid) throw new Error("Ville introuvable.");
+                updatedData.ProtectedCityUuid = cityUuid;
+            }
+    
+            if (SquadUuid) {
+                const squadUuid = await this.getSquadUuid(SquadUuid, userUuid);
+                if (!squadUuid) throw new Error("Escouade introuvable.");
+                updatedData.SquadUuid = squadUuid;
+            }
+    
+            if (Object.keys(updatedData).length === 0) {
+                throw new Error("Aucune modification apportée.");
+            }
+    
+            const updatedResponse = await fetch(`${this.apiurl}/${SuperHeroUuid}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedData),
+            });
+    
+            if (!updatedResponse.ok) {
+                throw new Error('Failed to update hero');
+            }
+    
+            console.log("Hero updated successfully", updatedData);
+            socket.emit("HeroUpdateSuccess", true);
+    
+        } catch (error) {
+            console.error("Error in updating hero", error);
+            socket.emit("Error", error.message);
         }
     }
     

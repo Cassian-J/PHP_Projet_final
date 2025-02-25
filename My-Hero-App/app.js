@@ -13,6 +13,8 @@ var enginTypeRouter = require("./routes/engin_type");
 var createHeroRouter = require("./routes/create_hero");
 var createCityRouter = require("./routes/city");
 var createPlanetRouter = require("./routes/planet");
+var showHeroRouter = require("./routes/showHero");
+var modifHeroRouter = require("./routes/modifHero");
 var app = express();
 
 // view engine setup
@@ -31,11 +33,14 @@ app.use('/My_Hero_App', heroAppRouter);
 
 app.use('/squad',squadRouter);
 app.use('/superpower',superPowerRouter);
-app.use('/engin_type',enginTypeRouter);
+app.use('/engintype',enginTypeRouter);
 
-app.use('/create_hero', createHeroRouter);
+app.use('/createhero', createHeroRouter);
 app.use('/city', createCityRouter);
 app.use('/planet', createPlanetRouter);
+
+app.use('/modifhero', modifHeroRouter);
+app.use('/showhero', showHeroRouter);
 
 
 // Middleware de vérification automatique de connexion
